@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Map Haldwani</title>
+        <meta
+            name="viewport"
+            content="initial-scale=1,maximum-scale=1,user-scalable=no"
+        />
+
+        <link
+            href="https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.css"
+            rel="stylesheet"
+        />
+        <script src="https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.js"></script>
+        <link href="style.css" rel="stylesheet" />
+    </head>
+
+    <body>
+        <!-- Load the `mapbox-gl-geocoder` plugin. -->
+        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
+        <link
+            rel="stylesheet"
+            href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css"
+            type="text/css"
+        />
+
+        <div id="map">
+            <div id="left" class="sidebar flex-center left collapsed">
+                <div class="sidebar-content rounded-rect flex-center">
+                    Left Sidebar
+                    <div
+                        class="sidebar-toggle rounded-rect left"
+                        onclick="toggleSidebar('left')"
+                    >
+                        &rarr;
+                    </div>
+                </div>
+            </div>
+            <div id="right" class="sidebar flex-center right collapsed">
+                <div class="sidebar-content rounded-rect flex-center">
+                    <div id="menu">
+                        <div>
+                            <input
+                                id="satellite"
+                                type="radio"
+                                name="rtoggle"
+                                value="mapbox://styles/mapbox/satellite-v9"
+                            />
+                            <label for="satellite">Satellite</label>
+                        </div>
+
+                        <div>
+                            <input
+                                id="satellite-streets"
+                                type="radio"
+                                name="rtoggle"
+                                value="mapbox://styles/lakshyajeet/ckuw6ho682rig18qp8ldx5wkl"
+                            />
+                            <label for="satellite-streets"
+                                >Satellite Streets</label
+                            >
+                        </div>
+                        <input
+                            id="navigation-day"
+                            type="radio"
+                            name="rtoggle"
+                            value="mapbox://styles/mapbox/navigation-day-v1"
+                        />
+                        <label for="navigation-day">Navigation Day</label>
+
+                        <input
+                            id="navigation-night"
+                            type="radio"
+                            name="rtoggle"
+                            value="mapbox://styles/lakshyajeet/ckvrvl4w10gkj14pl1u4js7ar"
+                        />
+                        <label for="navigation-night">Navigation Night</label>
+
+                        <input
+                            id="streets"
+                            type="radio"
+                            name="rtoggle"
+                            value="mapbox://styles/lakshyajeet/ckuw9z93k25ny18o6538pmjps"
+                            checked="checked"
+                        />
+                        <label for="streets">Streets</label>
+
+                        <input
+                            id="outdoors"
+                            type="radio"
+                            name="rtoggle"
+                            value="mapbox://styles/mapbox/outdoors-v11"
+                        />
+                        <label for="outdoors">Outdoors</label>
+
+                        <input
+                            id="osm"
+                            type="radio"
+                            name="rtoggle"
+                            value="osm"
+                        />
+                        <label for="osm">OpenStreetMap</label>
+                    </div>
+                </div>
+                <div
+                    class="sidebar-toggle rounded-rect right sidebar-arrow"
+                    onclick="toggleSidebar('right')"
+                >
+                    &larr;
+                </div>
+            </div>
+        </div>
+        <div id="geocoder" class="geocoder"></div>
+
+        <script src="script.js"></script>
+    </body>
+</html>
