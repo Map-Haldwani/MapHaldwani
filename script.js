@@ -1,12 +1,6 @@
 // JavaScript Document
-var opencage_api_key = "bb4cb8615cb445cc8c59c02826af5b86";
-var opencage_api_url = "https://api.opencagedata.com/geocode/v1/geojson";
-
 var locationiq_api_key = "pk.dd3b88b07ee111e15e0af9588de10ba7";
 var locationiq_api_url = "https://api.locationiq.com/v1/autocomplete.php";
-
-var geokeo_api_key = "25e5bf55d654beeb5bd8e922c56601be";
-var geokeo_api_url = "https://geokeo.com/geocode/v1/search.php";
 
 mapboxgl.accessToken =
     "pk.eyJ1IjoibGFrc2h5YWplZXQiLCJhIjoiY2t1cWx1N3dtMGFtYzJ2bG5jZDRleDJhOCJ9.QZg1Hzuvo5s50PgCgbTKCQ";
