@@ -29,7 +29,7 @@ const map = new mapboxgl.Map({
     container: "map", // container ID
     center: [79.51, 29.1869],
     zoom: 10,
-    pitch: 45,
+    pitch: 0,
     style: "mapbox://styles/lakshyajeet/ckuw9z93k25ny18o6538pmjps",
     cooperativeGestures: true,
 });
@@ -182,7 +182,7 @@ map.on("load", () => {
     map.flyTo({
         center: [79.51, 29.1969],
         zoom: 14,
-        pitch: 60,
+        pitch: 45,
 
         essential: true,
         bearing: 20,
