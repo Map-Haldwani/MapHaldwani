@@ -31,7 +31,8 @@ const map = new mapboxgl.Map({
     zoom: 10,
     pitch: 0,
     style: "mapbox://styles/lakshyajeet/ckuw9z93k25ny18o6538pmjps",
-    cooperativeGestures: true,
+    cooperativeGestures: false,
+    attributionControl: false,
 });
 
 const layerList = document.getElementById("menu");
@@ -49,17 +50,17 @@ for (const input of inputs) {
 }
 
 var placeEmoji = {
-    school: "🏫",
+    amenity: { school: "🏫", events_venue: "🎉" },
+    boundary: { national_park: "🏞️" },
     park: "🌲",
-    events_venue: "🎉",
-    highway: "🛣️",
+    highway: { resedential: "🏠" },
 };
 
-function placeTypeEmoji(type) {
+function placeTypeEmoji(type, placeClass) {
     if (type in placeEmoji) {
         return placeEmoji[type];
     }
-    return "🔗";
+    return "🔗 ";
 }
 
 async function forwardGeocoder(query) {
@@ -75,6 +76,7 @@ async function forwardGeocoder(query) {
         "&bounded=1" +
         "&limit=5" +
         "&countrycodes=in";
+    var success = false;
 
     const locationiq_result = await fetch(locationiq_request_url)
         .then((response) => {
@@ -83,23 +85,32 @@ async function forwardGeocoder(query) {
         .then((actualdata) => {
             if (actualdata["error"]) {
                 return;
+            } else {
+                const matchingFeatures = [];
+                for (const feature of actualdata) {
+                    feature["place_name"] =
+                        placeTypeEmoji(feature.type, feature.class) +
+                        feature.display_name;
+                    feature["center"] = [feature.lon, feature.lat];
+                    feature["place_type"] = feature.type;
+                    matchingFeatures.push(feature);
+                }
+                success = true;
+                return matchingFeatures;
             }
-            const matchingFeatures = [];
-            for (const feature of actualdata) {
-                feature["place_name"] =
-                    placeTypeEmoji(feature.type) + feature.display_name;
-                feature["center"] = [feature.lon, feature.lat];
-                feature["place_type"] = feature.type;
-                matchingFeatures.push(feature);
-            }
-            return matchingFeatures;
         })
         .catch((error) => {
-            success = false;
             console.log(`Location IQ Error ${error}`);
+            return;
         });
 
-    return locationiq_result;
+    if (success) {
+        return locationiq_result;
+    } else {
+        return Promise.reject(
+            new Error("failed to fetch data from Location IQ")
+        );
+    }
 }
 
 const coordinatesGeocoder = function (query) {
@@ -149,19 +160,47 @@ const coordinatesGeocoder = function (query) {
     return geocodes;
 };
 
-const geocoder = new MapboxGeocoder({
-    accessToken: mapboxgl.accessToken,
-    localGeocoder: coordinatesGeocoder,
-    externalGeocoder: forwardGeocoder,
-    zoom: 15,
-    placeholder: "Search a place",
-    mapboxgl: mapboxgl,
-});
+map.addControl(
+    new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        countries: "in",
+        collapsed: true,
+        autocomplete: true,
+        localGeocoder: coordinatesGeocoder,
+        externalGeocoder: forwardGeocoder,
+        zoom: 15,
+        placeholder: "Search a place",
+        mapboxgl: mapboxgl,
+    }),
+    "top-left"
+);
 
-map.addControl(new mapboxgl.NavigationControl());
+map.addControl(
+    new mapboxgl.AttributionControl({
+        customAttribution: "Map Haldwani",
+    })
+);
+map.addControl(
+    new mapboxgl.ScaleControl({ maxWidth: 80, unit: "metric" }),
+    "bottom-right"
+);
+map.addControl(
+    new mapboxgl.NavigationControl({
+        visualizePitch: true,
+    }),
+    "bottom-right"
+);
 map.addControl(new mapboxgl.FullscreenControl());
-
-document.getElementById("geocoder").appendChild(geocoder.onAdd(map));
+map.addControl(
+    new mapboxgl.GeolocateControl({
+        positionOptions: {
+            enableHighAccuracy: true,
+        },
+        trackUserLocation: true,
+        showUserHeading: true,
+    }),
+    "bottom-right"
+);
 
 function toggleSidebar(id) {
     const elem = document.getElementById(id);
