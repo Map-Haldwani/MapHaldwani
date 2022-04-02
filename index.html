@@ -7,18 +7,28 @@
             name="viewport"
             content="initial-scale=1,maximum-scale=1,user-scalable=no"
         />
+        <link href="style.css" rel="stylesheet" />
 
         <link
             href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css"
             rel="stylesheet"
         />
         <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
-        <link href="style.css" rel="stylesheet" />
+
         <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
         <link
             rel="stylesheet"
             href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
             type="text/css"
+        />
+
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl-style-switcher/1.0.4/index.js"
+            type="module"
+        ></script>
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl-style-switcher/1.0.4/styles.css"
+            rel="stylesheet"
         />
     </head>
 
@@ -33,85 +43,6 @@
                     >
                         &rarr;
                     </div>
-                </div>
-            </div>
-            <div id="right" class="sidebar flex-center right collapsed">
-                <div class="sidebar-content rounded-rect flex-center">
-                    <div id="menu">
-                        <div>
-                            <input
-                                id="satellite"
-                                type="radio"
-                                name="rtoggle"
-                                value="mapbox://styles/mapbox/satellite-v9"
-                            />
-                            <label for="satellite">Satellite</label>
-                        </div>
-
-                        <div>
-                            <input
-                                id="satellite-streets"
-                                type="radio"
-                                name="rtoggle"
-                                value="mapbox://styles/lakshyajeet/ckuw6ho682rig18qp8ldx5wkl"
-                            />
-                            <label for="satellite-streets"
-                                >Satellite Streets</label
-                            >
-                        </div>
-                        <input
-                            id="navigation-day"
-                            type="radio"
-                            name="rtoggle"
-                            value="mapbox://styles/mapbox/navigation-day-v1"
-                        />
-                        <label for="navigation-day">Navigation Day</label>
-                        <div>
-                            <input
-                                id="navigation-night"
-                                type="radio"
-                                name="rtoggle"
-                                value="mapbox://styles/lakshyajeet/ckvrvl4w10gkj14pl1u4js7ar"
-                            />
-                            <label for="navigation-night"
-                                >Navigation Night</label
-                            >
-                        </div>
-                        <div>
-                            <input
-                                id="streets"
-                                type="radio"
-                                name="rtoggle"
-                                value="mapbox://styles/lakshyajeet/ckuw9z93k25ny18o6538pmjps"
-                                checked="checked"
-                            />
-                            <label for="streets">Streets</label>
-                        </div>
-                        <div>
-                            <input
-                                id="outdoors"
-                                type="radio"
-                                name="rtoggle"
-                                value="mapbox://styles/mapbox/outdoors-v11"
-                            />
-                            <label for="outdoors">Outdoors</label>
-                        </div>
-                        <div>
-                            <input
-                                id="osm"
-                                type="radio"
-                                name="rtoggle"
-                                value="osm"
-                            />
-                            <label for="osm">OpenStreetMap</label>
-                        </div>
-                    </div>
-                </div>
-                <div
-                    class="sidebar-toggle rounded-rect right sidebar-arrow"
-                    onclick="toggleSidebar('right')"
-                >
-                    &larr;
                 </div>
             </div>
         </div>
