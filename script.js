@@ -5,26 +5,6 @@ var locationiq_api_url = "https://api.locationiq.com/v1/autocomplete.php";
 mapboxgl.accessToken =
     "pk.eyJ1IjoibGFrc2h5YWplZXQiLCJhIjoiY2t1cWx1N3dtMGFtYzJ2bG5jZDRleDJhOCJ9.QZg1Hzuvo5s50PgCgbTKCQ";
 
-const OSMstyle = {
-    version: 8,
-    sources: {
-        osm: {
-            type: "raster",
-            tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
-            tileSize: 256,
-            attribution:
-                '<a target="_blank" rel="noopener" href="http://openstreetmap.org">@OpenStreetMap</a> <a target="_blank" rel="noopener" href="https://www.openstreetmap.org/edit#map=13/29.2069/79.5237">Edit this map</a>',
-        },
-    },
-    layers: [
-        {
-            id: "osm",
-            type: "raster",
-            source: "osm",
-        },
-    ],
-};
-
 const map = new mapboxgl.Map({
     container: "map", // container ID
     center: [79.51, 29.1869],
@@ -36,15 +16,33 @@ const map = new mapboxgl.Map({
 });
 
 var placeEmoji = {
-    amenity: { school: "🏫", events_venue: "🎉" },
+    amenity: {
+        school: "🏫",
+        college: "🎓",
+        events_venue: "🎉",
+        university: "🎓",
+        bank: "🏦",
+        place_of_worship: "🛐",
+        restaurant: "🍴",
+        cafe: "🍰",
+        bar: "🍺",
+        pharmacy: "💊",
+        atm: "🏧",
+    },
+    shop: { bakery: "🍞" },
+    tourism: { hotel: "🏨" },
     boundary: { national_park: "🏞️" },
-    park: "🌲",
-    highway: { resedential: "🏠" },
+    highway: { residential: "🛣️", motorway: "🛣️" },
+    landuse: { religious: "🛐", cemetery: "⚰️", residential: "🏠" },
+    leisure: { park: "⛲", playground: "🛝", pitch: "🏃", sports_centre: "🏊" },
+    railway: { station: "🚉" },
 };
 
 function placeTypeEmoji(type, placeClass) {
-    if (type in placeEmoji) {
-        return placeEmoji[type];
+    if (placeClass in placeEmoji) {
+        if (type in placeEmoji[placeClass]) {
+            return placeEmoji[placeClass][type];
+        }
     }
     return "🔗 ";
 }
@@ -219,103 +217,5 @@ map.on("load", () => {
     });
 });
 
-// test xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-class MapboxStyleSwitcherControl {
-    constructor(styles) {
-        this.styles = styles || MapboxStyleSwitcherControl.DEFAULT_STYLES;
-    }
-    getDefaultPosition() {
-        const defaultPosition = "bottom-left";
-        return defaultPosition;
-    }
-    onAdd(map) {
-        this.controlContainer = document.createElement("div");
-        this.controlContainer.classList.add("mapboxgl-ctrl");
-        this.controlContainer.classList.add("mapboxgl-ctrl-group");
-
-        const mapStyleContainer = document.createElement("div");
-        const styleButton = document.createElement("button");
-
-        mapStyleContainer.classList.add("mapboxgl-style-list");
-
-        for (const style of this.styles) {
-            const styleElement = document.createElement("button");
-            styleElement.innerText = style.title;
-            styleElement.classList.add(
-                style.title.replace(/[^a-z0-9-]/gi, "_")
-            );
-            styleElement.dataset.uri = JSON.stringify(style.uri);
-            styleElement.addEventListener("click", (event) => {
-                const srcElement = event.srcElement;
-                map.setStyle(JSON.parse(srcElement.dataset.uri));
-                mapStyleContainer.style.display = "none";
-                styleButton.style.display = "block";
-                const elms = mapStyleContainer.getElementsByClassName("active");
-                while (elms[0]) {
-                    elms[0].classList.remove("active");
-                }
-                srcElement.classList.add("active");
-            });
-
-            if (style.title === MapboxStyleSwitcherControl.DEFAULT_STYLE) {
-                styleElement.classList.add("active");
-            }
-
-            mapStyleContainer.appendChild(styleElement);
-        }
-        styleButton.classList.add("mapboxgl-ctrl-icon");
-        styleButton.classList.add("mapboxgl-style-switcher");
-        styleButton.addEventListener("click", () => {
-            styleButton.style.display = "none";
-            mapStyleContainer.style.display = "block";
-        });
-
-        document.addEventListener("click", (event) => {
-            if (!this.controlContainer.contains(event.target)) {
-                mapStyleContainer.style.display = "none";
-                styleButton.style.display = "block";
-            }
-        });
-
-        this.controlContainer.appendChild(styleButton);
-        this.controlContainer.appendChild(mapStyleContainer);
-
-        return this.controlContainer;
-    }
-    onRemove() {
-        return;
-    }
-}
-MapboxStyleSwitcherControl.DEFAULT_STYLE = "Streets";
-MapboxStyleSwitcherControl.DEFAULT_STYLES = [
-    {
-        title: "Satellite",
-        uri: "mapbox://styles/mapbox/satellite-v9",
-    },
-    {
-        title: "Satellite Streets",
-        uri: "mapbox://styles/lakshyajeet/ckuw6ho682rig18qp8ldx5wkl",
-    },
-    {
-        title: "Day",
-        uri: "mapbox://styles/mapbox/navigation-day-v1",
-    },
-    {
-        title: "Night",
-        uri: "mapbox://styles/lakshyajeet/ckvrvl4w10gkj14pl1u4js7ar",
-    },
-    {
-        title: "Outdoors",
-        uri: "mapbox://styles/mapbox/outdoors-v10",
-    },
-    {
-        title: "Streets",
-        uri: "mapbox://styles/lakshyajeet/ckuw9z93k25ny18o6538pmjps",
-    },
-    {
-        title: "OSM",
-        uri: OSMstyle,
-    },
-];
-
+map.addControl(new MapboxTraffic());
 map.addControl(new MapboxStyleSwitcherControl());
