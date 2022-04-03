@@ -112,10 +112,10 @@ MapboxStyleSwitcherControl.DEFAULT_STYLES = [
     },
     {
         title: "Outdoors",
-        uri: "mapbox://styles/mapbox/outdoors-v11",
+        uri: "mapbox://styles/lakshyajeet/cl1jcx2n8000g14rvri6u5djk",
     },
     {
-        title: "Streets",
+        title: "Default",
         uri: "mapbox://styles/lakshyajeet/ckuw9z93k25ny18o6538pmjps",
     },
     {
