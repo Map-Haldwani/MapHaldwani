@@ -95,20 +95,24 @@ MapboxStyleSwitcherControl.DEFAULT_STYLES = [
         uri: "mapbox://styles/lakshyajeet/ckuw6ho682rig18qp8ldx5wkl",
     },
     {
-        title: "Day",
-        uri: "mapbox://styles/mapbox/navigation-day-v1",
+        title: "Navigation Guidance Day",
+        uri: "mapbox://styles/mapbox/navigation-guidance-day-v4",
     },
     {
-        title: "Night",
-        uri: "mapbox://styles/lakshyajeet/ckvrvl4w10gkj14pl1u4js7ar",
+        title: "Navigation Guidance Night",
+        uri: "mapbox://styles/mapbox/navigation-guidance-night-v4",
     },
     {
-        title: "Dark",
+        title: "Traffic Day",
+        uri: "mapbox://styles/mapbox/traffic-day-v2",
+    },
+    {
+        title: "Traffic Night",
         uri: "mapbox://styles/mapbox/traffic-night-v2",
     },
     {
         title: "Outdoors",
-        uri: "mapbox://styles/mapbox/outdoors-v10",
+        uri: "mapbox://styles/mapbox/outdoors-v11",
     },
     {
         title: "Streets",
