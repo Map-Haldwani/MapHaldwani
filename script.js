@@ -105,19 +105,16 @@ map.on("click", "poi-label", (e) => {
         .then((data) => {
             console.log(data);
             if (data.features[0] != null) {
-                var text =
-                    data.features[0].properties.display_name +
-                    "\nCategory:" +
-                    data.features[0].properties.category +
-                    "\nType:" +
-                    data.features[0].properties.type;
+                var text = `<p>${data.features[0].properties.display_name}</p>
+                    <p>Category: ${data.features[0].properties.category}</p>
+                     <p>Type: ${data.features[0].properties.type}</p>`;
             } else {
                 var text = name;
             }
 
             console.log(text);
 
-            const description = `<h3>${name}</h3>` + `<a>${text}</a>`;
+            const description = `<h3>${name}</h3>` + text;
             // Ensure that if the map is zoomed out such that multiple
             // copies of the feature are visible, the popup appears
             // over the copy being pointed to.

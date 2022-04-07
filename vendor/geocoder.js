@@ -14,6 +14,7 @@ var placeEmoji = {
         bar: "🍺",
         pharmacy: "💊",
         atm: "🏧",
+        hospital: "🏥",
     },
     shop: { bakery: "🍞" },
     tourism: { hotel: "🏨" },
