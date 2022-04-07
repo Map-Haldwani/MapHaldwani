@@ -7,6 +7,8 @@
             name="viewport"
             content="initial-scale=1,maximum-scale=1,user-scalable=no"
         />
+        <link href="media/favicon.ico" rel="icon" />
+
         <link href="style.css" rel="stylesheet" />
 
         <link
@@ -21,27 +23,52 @@
             href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
             type="text/css"
         />
-        <script src="mapbox-gl-traffic.js"></script>
-        <script src="map-style.js"></script>
-        <script src="geocoder.js"></script>
+        <script src="vendor/mapbox-gl-traffic.js"></script>
+        <script src="vendor/map-style.js"></script>
+        <script src="vendor/geocoder.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
 
     <body>
-        <div id="map">
-            <div id="left" class="sidebar flex-center left collapsed">
-                <div class="sidebar-content rounded-rect flex-center">
-                    <a>Map Haldwani</a>
-                    <div
-                        class="sidebar-toggle rounded-rect left"
-                        onclick="toggleSidebar('left')"
-                    >
-                        &rarr;
+        <div class="loader">
+            <div>
+                <p class="loading text">
+                    <image id="load-logo" src="media\logo.png"></image>
+                    <b id="load-text">Map Haldwani</b>
+                </p>
+                <p class="loading">
+                    <image src="media\loader.gif"></image>
+                </p>
+            </div>
+        </div>
+        <div class="content">
+            <div id="map">
+                <div id="left" class="sidebar flex-center left collapsed">
+                    <div class="sidebar-content rounded-rect flex-center">
+                        <p>Map Haldwani</p>
+                        <div
+                            class="sidebar-toggle rounded-rect left"
+                            onclick="toggleSidebar('left')"
+                        >
+                            &rarr;
+                        </div>
                     </div>
                 </div>
             </div>
+            <div id="geocoder" class="geocoder"></div>
         </div>
-        <div id="geocoder" class="geocoder"></div>
-
+        <script>
+            function delay(time) {
+                return new Promise((resolve) => setTimeout(resolve, time));
+            }
+            $(window).on("load", function () {
+                delay(1000).then(() => {
+                    $(".loading").fadeOut(200);
+                    $(".loader").fadeOut(1000);
+                });
+            });
+        </script>
         <script src="script.js"></script>
     </body>
 </html>

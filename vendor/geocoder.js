@@ -1,6 +1,42 @@
 var locationiq_api_key = "pk.dd3b88b07ee111e15e0af9588de10ba7";
 var locationiq_api_url = "https://api.locationiq.com/v1/autocomplete.php";
 
+var placeEmoji = {
+    amenity: {
+        school: "🏫",
+        college: "🎓",
+        events_venue: "🎉",
+        university: "🎓",
+        bank: "🏦",
+        place_of_worship: "🛐",
+        restaurant: "🍴",
+        cafe: "🍰",
+        bar: "🍺",
+        pharmacy: "💊",
+        atm: "🏧",
+    },
+    shop: { bakery: "🍞" },
+    tourism: { hotel: "🏨" },
+    boundary: { national_park: "🏞️" },
+    highway: { default: "🛣️" },
+    landuse: { religious: "🛐", cemetery: "⚰️", residential: "🏠" },
+    leisure: { park: "⛲", playground: "🛝", pitch: "🏃", sports_centre: "🏊" },
+    railway: { station: "🚉" },
+};
+
+function placeTypeEmoji(type, placeClass) {
+    if (placeClass in placeEmoji) {
+        if (type in placeEmoji[placeClass]) {
+            return placeEmoji[placeClass][type];
+        } else {
+            if (placeEmoji[placeClass]["default"]) {
+                return placeEmoji[placeClass]["default"];
+            }
+        }
+    }
+    return "🔗 ";
+}
+
 async function forwardGeocoder(query) {
     // Location IQ
     const locationiq_request_url =
