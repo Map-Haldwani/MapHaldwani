@@ -38,17 +38,23 @@ class MapboxStyleSwitcherControl {
 
         for (const style of this.styles) {
             const styleElement = document.createElement("button");
+
             styleElement.innerText = style.title;
             styleElement.classList.add(
                 style.title.replace(/[^a-z0-9-]/gi, "_")
             );
+
             styleElement.dataset.uri = JSON.stringify(style.uri);
+
             styleElement.addEventListener("click", (event) => {
                 const srcElement = event.srcElement;
                 map.setStyle(JSON.parse(srcElement.dataset.uri));
+
                 mapStyleContainer.style.display = "none";
                 styleButton.style.display = "block";
+
                 const elms = mapStyleContainer.getElementsByClassName("active");
+
                 while (elms[0]) {
                     elms[0].classList.remove("active");
                 }
@@ -84,7 +90,7 @@ class MapboxStyleSwitcherControl {
         return;
     }
 }
-MapboxStyleSwitcherControl.DEFAULT_STYLE = "Streets";
+MapboxStyleSwitcherControl.DEFAULT_STYLE = "Default";
 MapboxStyleSwitcherControl.DEFAULT_STYLES = [
     {
         title: "Satellite",
@@ -119,7 +125,7 @@ MapboxStyleSwitcherControl.DEFAULT_STYLES = [
         uri: "mapbox://styles/lakshyajeet/ckuw9z93k25ny18o6538pmjps",
     },
     {
-        title: "OSM",
+        title: "OpenStreetMap",
         uri: OSMstyle,
     },
 ];

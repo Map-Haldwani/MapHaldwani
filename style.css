@@ -166,6 +166,7 @@ body {
 .mapboxgl-style-list button.active
 {
     font-weight: bold;
+    background-color: lightgray;
 }
 
 .mapboxgl-style-list button:hover
