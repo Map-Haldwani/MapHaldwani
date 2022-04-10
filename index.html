@@ -23,19 +23,12 @@
             href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
             type="text/css"
         />
-        <script src="vendor/mapbox-gl-traffic.js"></script>
+        <script src="vendor/control.js"></script>
+        <link rel="stylesheet" href="vendor/control.css" />
+
         <script src="vendor/map-style.js"></script>
         <script src="vendor/geocoder.js"></script>
-
-        <script
-            src="https://unpkg.com/mapbox-gl-controls@2.3.5/src/index.ts"
-            type="module"
-        ></script>
-        <link
-            rel="stylesheet"
-            href="https://unpkg.com/mapbox-gl-controls@2.3.5/lib/controls.css"
-            type="text/css"
-        />
+        <script src="vendor/mapbox-gl-traffic.js"></script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
@@ -73,7 +66,7 @@
                 return new Promise((resolve) => setTimeout(resolve, time));
             }
             $(window).on("load", function () {
-                delay(1000).then(() => {
+                delay(1500).then(() => {
                     $(".loading").fadeOut(200);
                     $(".loader").fadeOut(1000);
                 });

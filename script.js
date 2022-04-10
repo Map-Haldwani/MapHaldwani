@@ -1,5 +1,4 @@
 // JavaScript Document
-
 mapboxgl.accessToken =
     "pk.eyJ1IjoibGFrc2h5YWplZXQiLCJhIjoiY2t1cWx1N3dtMGFtYzJ2bG5jZDRleDJhOCJ9.QZg1Hzuvo5s50PgCgbTKCQ";
 
@@ -11,6 +10,8 @@ const map = new mapboxgl.Map({
     style: "mapbox://styles/lakshyajeet/ckuw9z93k25ny18o6538pmjps",
     cooperativeGestures: false,
     attributionControl: false,
+    hash: true,
+    maxPitch: 50,
 });
 
 map.addControl(
@@ -37,12 +38,8 @@ map.addControl(
     new mapboxgl.ScaleControl({ maxWidth: 80, unit: "metric" }),
     "bottom-right"
 );
-map.addControl(
-    new mapboxgl.NavigationControl({
-        visualizePitch: true,
-    }),
-    "bottom-right"
-);
+map.addControl(new CompassControl(), "bottom-right");
+map.addControl(new ZoomControl(), "bottom-right");
 map.addControl(new mapboxgl.FullscreenControl());
 map.addControl(
     new mapboxgl.GeolocateControl({
@@ -86,7 +83,14 @@ map.on("load", () => {
     });
 });
 
-map.addControl(new MapboxTraffic());
+var trafficControl = new MapboxTraffic();
+
+map.on("styledata", (e) => {
+    if (map.hasControl(trafficControl)) {
+        map.removeControl(trafficControl);
+    }
+    map.addControl(trafficControl);
+});
 map.addControl(new MapboxStyleSwitcherControl());
 
 map.on("click", "poi-label", (e) => {

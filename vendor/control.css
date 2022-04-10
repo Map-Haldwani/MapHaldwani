@@ -1,0 +1,10 @@
+.mapbox-control button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .mapbox-control button.-active svg {
+    fill: #4264fb;
+  }
+  
+ 

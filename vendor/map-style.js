@@ -18,6 +18,12 @@ const OSMstyle = {
     ],
 };
 
+const basemapEnum = "OSM:Standard";
+const apiKey =
+    "AAPK59b0e7a2a4174bf693ac98dabf0e125cgEmkmruuiJUzi4PV-qkvDCaLlWB3STXBwe082mfi7Kg2sU8nsTZbaK4hLlXKUDyv";
+
+const osmStyle = `https://basemaps-api.arcgis.com/arcgis/rest/services/styles/${basemapEnum}?type=style&token=${apiKey}`;
+
 class MapboxStyleSwitcherControl {
     constructor(styles) {
         this.styles = styles || MapboxStyleSwitcherControl.DEFAULT_STYLES;
@@ -101,20 +107,12 @@ MapboxStyleSwitcherControl.DEFAULT_STYLES = [
         uri: "mapbox://styles/lakshyajeet/ckuw6ho682rig18qp8ldx5wkl",
     },
     {
-        title: "Navigation Guidance Day",
-        uri: "mapbox://styles/mapbox/navigation-guidance-day-v4",
+        title: "Navigation Day",
+        uri: "mapbox://styles/mapbox/navigation-day-v1",
     },
     {
-        title: "Navigation Guidance Night",
-        uri: "mapbox://styles/mapbox/navigation-guidance-night-v4",
-    },
-    {
-        title: "Traffic Day",
-        uri: "mapbox://styles/mapbox/traffic-day-v2",
-    },
-    {
-        title: "Traffic Night",
-        uri: "mapbox://styles/mapbox/traffic-night-v2",
+        title: "Navigation Night",
+        uri: "mapbox://styles/lakshyajeet/cl1t49np7001214n3azx1re9l",
     },
     {
         title: "Outdoors",
@@ -126,6 +124,6 @@ MapboxStyleSwitcherControl.DEFAULT_STYLES = [
     },
     {
         title: "OpenStreetMap",
-        uri: OSMstyle,
+        uri: osmStyle,
     },
 ];
