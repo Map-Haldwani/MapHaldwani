@@ -206,5 +206,6 @@ img{
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: gray;
+    background-color: lightgray;
+    border-radius: 1vh;
 }

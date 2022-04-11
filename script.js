@@ -52,21 +52,6 @@ map.addControl(
     "bottom-right"
 );
 
-function toggleSidebar(id) {
-    const elem = document.getElementById(id);
-    // Add or remove the 'collapsed' CSS class from the sidebar element.
-    // Returns boolean "true" or "false" whether 'collapsed' is in the class list.
-    const collapsed = elem.classList.toggle("collapsed");
-    const padding = {};
-    // 'id' is 'right' or 'left'. When run at start, this object looks like: '{left: 300}';
-    padding[id] = collapsed ? 0 : 300; // 0 if collapsed, 300 px if not. This matches the width of the sidebars in the .sidebar CSS class.
-    // Use `map.easeTo()` with a padding option to adjust the map's center accounting for the position of sidebars.
-    map.easeTo({
-        padding: padding,
-        duration: 1000, // In ms. This matches the CSS transition duration property.
-    });
-}
-
 map.on("load", () => {
     map.flyTo({
         center: [79.51, 29.1969],
@@ -82,6 +67,18 @@ map.on("load", () => {
         },
     });
 });
+
+map.addControl(
+    new watergis.MapboxExportControl({
+        PageSize: watergis.Size.A3,
+        PageOrientation: watergis.PageOrientation.Portrait,
+        Format: watergis.Format.PNG,
+        DPI: watergis.DPI[96],
+        Crosshair: true,
+        PrintableArea: true,
+    }),
+    "top-right"
+);
 
 var trafficControl = new MapboxTraffic();
 
@@ -104,7 +101,7 @@ function sidebarOpen() {
     if (sidebar.classList.contains("collapsed")) {
         sidebar.classList.remove("collapsed");
         map.easeTo({
-            padding: { leftSidebar: 300 },
+            padding: { left: 300 },
             duration: 1000, // In ms. This matches the CSS transition duration property.
         });
     }
@@ -117,45 +114,78 @@ map.on("click", "poi-label", (e) => {
 
     var osm_id = e.features[0].id;
 
+    console.log(coordinates);
+
     osm_id = Math.floor(osm_id / 10);
 
     sidebarOpen();
+    map.flyTo({
+        center: coordinates,
+        curve: 1.1,
+        speed: 0.8,
+        easing(t) {
+            return t;
+        },
+    });
 
     fetch(
-        `https://nominatim.openstreetmap.org/lookup?osm_ids=R${osm_id},W${osm_id},N${osm_id}&format=geojson`
+        `https://nominatim.openstreetmap.org/lookup?osm_ids=R${osm_id},W${osm_id},N${osm_id}&format=geojson&extratags=1`
     )
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
             if (data.features[0] != null) {
                 var text = `<p>${data.features[0].properties.display_name}</p>
                     <p>Category: ${data.features[0].properties.category}</p>
                      <p>Type: ${data.features[0].properties.type}</p>`;
+
+                // Sidebar content
+                const sidebarContent =
+                    document.getElementById("leftSidebarContent");
+                sidebarContent.innerHTML = "";
+                sidebarContent.classList.remove("sidebarLoading");
+                sidebarContent.classList.add("sidebarLoaded");
+                // Image Placeholder
+                const imagePlaceholder = document.createElement("div");
+                imagePlaceholder.classList.add("imagePlaceholder");
+                if (data.features[0].properties.extratags.image != null) {
+                    imagePlaceholder.innerHTML = `<img src="${data.features[0].properties.extratags.image}" width="100%">`;
+                } else {
+                    imagePlaceholder.innerHTML = `<image src="media/default_img.svg"></image>`;
+                }
+                sidebarContent.appendChild(imagePlaceholder);
+                // Name & Type
+                const nameElement = document.createElement("div");
+                nameElement.innerHTML = `<h2 style="margin-bottom:0px">${name}</h2>
+                 <p style="color:grey; margin : 0; padding-top:0">${data.features[0].properties.type} (${data.features[0].properties.category})</p>`;
+                sidebarContent.appendChild(nameElement);
+                // Address
+                const addressElement = document.createElement("div");
+                addressElement.innerHTML = `<h3 style="margin-bottom:0px">Address</h3>
+                <p style="margin : 0; padding-top:0">${data.features[0].properties.display_name}</p>`;
+                sidebarContent.appendChild(addressElement);
+                // Phone
+                if (data.features[0].properties.extratags.phone != null) {
+                    const phoneElement = document.createElement("div");
+                    phoneElement.innerHTML = `<h3 style="margin-bottom:0px">Phone</h3>
+                    <p style="margin : 0; padding-top:0">${data.features[0].properties.extratags.phone}</p>`;
+                    sidebarContent.appendChild(phoneElement);
+                }
+                // Website
+                if (data.features[0].properties.extratags.website != null) {
+                    const websiteElement = document.createElement("div");
+                    websiteElement.innerHTML = `<h3 style="margin-bottom:0px">Website</h3>
+                    <p style="margin : 0; padding-top:0">${data.features[0].properties.extratags.website}</p>`;
+                    sidebarContent.appendChild(websiteElement);
+                }
             } else {
                 var text = name;
             }
-
-            const sidebarContent =
-                document.getElementById("leftSidebarContent");
-            sidebarContent.innerHTML = "";
-            sidebarContent.classList.remove("sidebarLoading");
-            sidebarContent.classList.add("sidebarLoaded");
-
-            const imagePlaceholder = document.createElement("div");
-            imagePlaceholder.classList.add("imagePlaceholder");
-            imagePlaceholder.innerHTML = `<image src="media/default_img.svg"></image>`;
-            sidebarContent.appendChild(imagePlaceholder);
-
-            const nameElement = document.createElement("div");
-            nameElement.style.display = "block";
-            nameElement.innerHTML = `<h2 style="margin-bottom:0px">${name}</h2>
-            <p style="color:grey; margin : 0; padding-top:0">${data.features[0].properties.type} (${data.features[0].properties.category})</p>`;
-            sidebarContent.appendChild(nameElement);
 
             const description = `<h3>${name}</h3>` + text;
             // Ensure that if the map is zoomed out such that multiple
             // copies of the feature are visible, the popup appears
             // over the copy being pointed to.
+
             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
             }
@@ -166,16 +196,18 @@ map.on("click", "poi-label", (e) => {
                 .addTo(map);
         });
 });
-map.on("preclick", () => {
+
+function sidebarClose() {
     const sidebar = document.getElementById("leftSidebar");
     if (!sidebar.classList.contains("collapsed")) {
         sidebar.classList.add("collapsed");
         map.easeTo({
-            padding: { leftSidebar: 0 },
+            padding: { left: 0 },
             duration: 1000, // In ms. This matches the CSS transition duration property.
         });
     }
-});
+}
+map.on("preclick", sidebarClose);
 // Change the cursor to a pointer when the mouse is over the places layer.
 map.on("mouseenter", "poi-label", () => {
     map.getCanvas().style.cursor = "pointer";

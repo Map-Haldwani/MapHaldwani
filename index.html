@@ -23,6 +23,12 @@
             href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
             type="text/css"
         />
+        <link
+            href="https://watergis.github.io/mapbox-gl-export/mapbox-gl-export.css"
+            rel="stylesheet"
+        />
+        <script src="https://watergis.github.io/mapbox-gl-export/mapbox-gl-export.js"></script>
+
         <script src="vendor/control.js"></script>
         <link rel="stylesheet" href="vendor/control.css" />
 
@@ -55,7 +61,7 @@
                         <div id="leftSidebarContent"></div>
                         <div
                             class="sidebar-toggle left"
-                            onclick="toggleSidebar('leftSidebar')"
+                            onclick="sidebarClose()"
                         >
                             ✕
                         </div>
