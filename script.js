@@ -93,6 +93,20 @@ map.on("styledata", (e) => {
 });
 map.addControl(new MapboxStyleSwitcherControl());
 
+function sidebarOpen() {
+    const sidebar = document.getElementById("leftSidebar");
+    document.getElementById(
+        "leftSidebarContent"
+    ).innerHTML = `<image src="media/loader.gif" width="50px"></image>`;
+    if (sidebar.classList.contains("collapsed")) {
+        sidebar.classList.remove("collapsed");
+        map.easeTo({
+            padding: { leftSidebar: 300 },
+            duration: 1000, // In ms. This matches the CSS transition duration property.
+        });
+    }
+}
+
 map.on("click", "poi-label", (e) => {
     // Copy coordinates array.
     const coordinates = e.features[0].geometry.coordinates.slice();
@@ -101,6 +115,8 @@ map.on("click", "poi-label", (e) => {
     var osm_id = e.features[0].id;
 
     osm_id = Math.floor(osm_id / 10);
+
+    sidebarOpen();
 
     fetch(
         `https://nominatim.openstreetmap.org/lookup?osm_ids=R${osm_id},W${osm_id},N${osm_id}&format=geojson`
@@ -132,7 +148,16 @@ map.on("click", "poi-label", (e) => {
                 .addTo(map);
         });
 });
-
+map.on("preclick", () => {
+    const sidebar = document.getElementById("leftSidebar");
+    if (!sidebar.classList.contains("collapsed")) {
+        sidebar.classList.add("collapsed");
+        map.easeTo({
+            padding: { leftSidebar: 0 },
+            duration: 1000, // In ms. This matches the CSS transition duration property.
+        });
+    }
+});
 // Change the cursor to a pointer when the mouse is over the places layer.
 map.on("mouseenter", "poi-label", () => {
     map.getCanvas().style.cursor = "pointer";

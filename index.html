@@ -41,20 +41,23 @@
                     <b id="load-text">Map Haldwani</b>
                 </p>
                 <p class="loading">
-                    <image src="media\loader.gif"></image>
+                    <image src="media\loader.gif" width="50px"></image>
                 </p>
             </div>
         </div>
         <div class="content">
             <div id="map">
-                <div id="left" class="sidebar flex-center left collapsed">
-                    <div class="sidebar-content rounded-rect flex-center">
-                        <p>Map Haldwani</p>
+                <div
+                    id="leftSidebar"
+                    class="sidebar flex-center left collapsed"
+                >
+                    <div class="sidebar-content rounded-rect sidebarLoading">
+                        <div id="leftSidebarContent"></div>
                         <div
-                            class="sidebar-toggle rounded-rect left"
-                            onclick="toggleSidebar('left')"
+                            class="sidebar-toggle left"
+                            onclick="toggleSidebar('leftSidebar')"
                         >
-                            &rarr;
+                            ✕
                         </div>
                     </div>
                 </div>
