@@ -95,9 +95,12 @@ map.addControl(new MapboxStyleSwitcherControl());
 
 function sidebarOpen() {
     const sidebar = document.getElementById("leftSidebar");
-    document.getElementById(
-        "leftSidebarContent"
-    ).innerHTML = `<image src="media/loader.gif" width="50px"></image>`;
+
+    const sidebarContent = document.getElementById("leftSidebarContent");
+    sidebarContent.innerHTML = `<image src="media/loader.gif" width="50px"></image>`;
+    sidebarContent.classList.remove("sidebarLoaded");
+    sidebar.classList.add("sidebarLoading");
+
     if (sidebar.classList.contains("collapsed")) {
         sidebar.classList.remove("collapsed");
         map.easeTo({
@@ -132,7 +135,22 @@ map.on("click", "poi-label", (e) => {
                 var text = name;
             }
 
-            console.log(text);
+            const sidebarContent =
+                document.getElementById("leftSidebarContent");
+            sidebarContent.innerHTML = "";
+            sidebarContent.classList.remove("sidebarLoading");
+            sidebarContent.classList.add("sidebarLoaded");
+
+            const imagePlaceholder = document.createElement("div");
+            imagePlaceholder.classList.add("imagePlaceholder");
+            imagePlaceholder.innerHTML = `<image src="media/default_img.svg"></image>`;
+            sidebarContent.appendChild(imagePlaceholder);
+
+            const nameElement = document.createElement("div");
+            nameElement.style.display = "block";
+            nameElement.innerHTML = `<h2 style="margin-bottom:0px">${name}</h2>
+            <p style="color:grey; margin : 0; padding-top:0">${data.features[0].properties.type} (${data.features[0].properties.category})</p>`;
+            sidebarContent.appendChild(nameElement);
 
             const description = `<h3>${name}</h3>` + text;
             // Ensure that if the map is zoomed out such that multiple
