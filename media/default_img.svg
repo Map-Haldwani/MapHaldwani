@@ -9,6 +9,7 @@
   
   <circle stroke="#AAA" stroke-width="10" r="280" fill="#FFF"/>
   <text style="fill:#444;">
-    <tspan x="0" y="-8">NO IMAGE</tspan><tspan x="0" y="80">AVAILABLE</tspan>
+    <tspan x="0" y="-8">NO IMAGE</tspan>
+    <tspan x="0" y="80">AVAILABLE</tspan>
   </text>
 </svg>
