@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<head>
+    <script src="https://unpkg.com/mapillary-js@4.1.0/dist/mapillary.js"></script>
+    <link
+        href="https://unpkg.com/mapillary-js@4.1.0/dist/mapillary.css"
+        rel="stylesheet"
+    />
+</head>
+<body>
+    <div id="mly" style="width: 640px; height: 480px"></div>
+
+    <script>
+        var { Viewer } = mapillary;
+
+        var viewer = new Viewer({
+            accessToken:
+                "MLY|5156776201075853|07025564e8b4277b5f54d38b3807eedc",
+            container: "mly", // the ID of our container defined in the HTML body
+            imageId: "1085483152010870",
+        });
+    </script>
+</body>

@@ -209,3 +209,7 @@ img{
     background-color: lightgray;
     border-radius: 1vh;
 }
+.mapillary-canvas{
+    left: 0;
+    top: 0;
+}

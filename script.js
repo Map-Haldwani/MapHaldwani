@@ -147,12 +147,29 @@ map.on("click", "poi-label", (e) => {
                 // Image Placeholder
                 const imagePlaceholder = document.createElement("div");
                 imagePlaceholder.classList.add("imagePlaceholder");
-                if (data.features[0].properties.extratags.image != null) {
-                    imagePlaceholder.innerHTML = `<img src="${data.features[0].properties.extratags.image}" width="100%">`;
-                } else {
-                    imagePlaceholder.innerHTML = `<image src="media/default_img.svg"></image>`;
-                }
+                imagePlaceholder.id = "imagePlaceholder";
                 sidebarContent.appendChild(imagePlaceholder);
+                if (data.features[0].properties.extratags.mapillary != null) {
+                    var { Viewer } = mapillary;
+
+                    var viewer = new Viewer({
+                        component: {
+                            attribution: false,
+                            sequence: false,
+                        },
+                        accessToken:
+                            "MLY|5156776201075853|07025564e8b4277b5f54d38b3807eedc",
+                        container: "imagePlaceholder", // the ID of our container defined in the HTML body
+                        imageId:
+                            data.features[0].properties.extratags.mapillary,
+                    });
+                } else {
+                    if (data.features[0].properties.extratags.image != null) {
+                        imagePlaceholder.innerHTML = `<img src="${data.features[0].properties.extratags.image}" width="100%">`;
+                    } else {
+                        imagePlaceholder.innerHTML = `<image src="media/default_img.svg"></image>`;
+                    }
+                }
                 // Name & Type
                 const nameElement = document.createElement("div");
                 nameElement.innerHTML = `<h2 style="margin-bottom:0px">${name}</h2>
