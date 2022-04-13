@@ -1,9 +1,11 @@
 const OSMstyle = {
-    version: 8,
     sources: {
         osm: {
             type: "raster",
-            tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+            //tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+            tiles: [
+                "https://mt1.google.com/vt/lyrs=s@189&gl=cn&x={x}&y={y}&z={z}",
+            ],
             tileSize: 256,
             attribution:
                 '<a target="_blank" rel="noopener" href="http://openstreetmap.org">@OpenStreetMap</a> <a target="_blank" rel="noopener" href="https://www.openstreetmap.org/edit#map=13/29.2069/79.5237">Edit this map</a>',
@@ -100,11 +102,11 @@ MapboxStyleSwitcherControl.DEFAULT_STYLE = "Default";
 MapboxStyleSwitcherControl.DEFAULT_STYLES = [
     {
         title: "Satellite",
-        uri: "mapbox://styles/mapbox/satellite-v9",
+        uri: satellite,
     },
     {
         title: "Satellite Streets",
-        uri: "mapbox://styles/lakshyajeet/ckuw6ho682rig18qp8ldx5wkl",
+        uri: satelliteStreet,
     },
     {
         title: "Navigation Day",
