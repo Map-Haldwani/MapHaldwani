@@ -6,12 +6,12 @@ const map = new mapboxgl.Map({
     container: "map", // container ID
     center: [79.51, 29.1869],
     zoom: 10,
-    pitch: 0,
+    pitch: 45,
     style: "mapbox://styles/lakshyajeet/ckuw9z93k25ny18o6538pmjps",
     cooperativeGestures: false,
     attributionControl: false,
     hash: true,
-    maxPitch: 50,
+    maxPitch: 45,
 });
 
 map.addControl(
@@ -41,6 +41,8 @@ map.addControl(
 map.addControl(new CompassControl(), "bottom-right");
 map.addControl(new ZoomControl(), "bottom-right");
 map.addControl(new mapboxgl.FullscreenControl());
+map.addControl(new PitchToggle({ minpitchzoom: 15 }));
+
 map.addControl(
     new mapboxgl.GeolocateControl({
         positionOptions: {
@@ -56,12 +58,12 @@ map.on("load", () => {
     map.flyTo({
         center: [79.51, 29.1969],
         zoom: 14,
-        pitch: 45,
+        pitch: 0,
 
         essential: true,
         bearing: 20,
         speed: 1,
-        curve: 1.1,
+        curve: 1,
         easing: function (t) {
             return t;
         },
@@ -87,6 +89,15 @@ map.on("styledata", (e) => {
         map.removeControl(trafficControl);
     }
     map.addControl(trafficControl);
+
+    if (!map.getSource("mapbox-dem")) {
+        map.addSource("mapbox-dem", {
+            type: "raster-dem",
+            url: "mapbox://mapbox.mapbox-terrain-dem-v1",
+            tileSize: 512,
+            maxzoom: 14,
+        });
+    }
 });
 map.addControl(new MapboxStyleSwitcherControl());
 
