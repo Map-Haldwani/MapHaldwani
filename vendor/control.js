@@ -146,3 +146,85 @@ class ZoomControl extends Base {
         this.insert();
     }
 }
+
+class PitchToggle {
+    constructor({ bearing = -10, pitch = 65, minpitchzoom = 15 }) {
+        this._bearing = bearing;
+        this._pitch = pitch;
+        this._minpitchzoom = minpitchzoom;
+    }
+
+    onAdd(map) {
+        this._map = map;
+        let _this = this;
+
+        this._btn = document.createElement("button");
+        this._btn.className = "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d";
+        this._btn.type = "button";
+        this._btn["aria-label"] = "Toggle Pitch";
+        this._btn.onclick = function () {
+            if (map.getPitch() <= 45) {
+                let minZoom = _this._minpitchzoom;
+                const curZoom = map.getZoom();
+
+                if (minZoom && curZoom < minZoom) {
+                    minZoom = curZoom;
+                }
+                map.setMaxPitch(65);
+                map.setTerrain({ source: "mapbox-dem", exaggeration: 1.5 });
+                map.easeTo({
+                    pitch: _this._pitch,
+                    bearing: _this._bearing,
+                    zoom: minZoom,
+                    duration: 1000,
+                });
+                delay(1000).then(() => {
+                    map.setMinPitch(65);
+                    _this._btn.className =
+                        "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-2d";
+                });
+            } else {
+                map.setMinPitch(0);
+                map.setTerrain();
+                map.easeTo({
+                    pitch: 0,
+                    bearing: 0,
+                    duration: 1000,
+                });
+                delay(1000).then(() => {
+                    map.setMaxPitch(45);
+                    _this._btn.className =
+                        "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d";
+                });
+            }
+
+            map.on("styledata", (e) => {
+                if (
+                    _this._btn.className ===
+                        "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-2d" &&
+                    !map.getTerrain()
+                ) {
+                    map.setTerrain({ source: "mapbox-dem", exaggeration: 1.5 });
+                }
+                if (
+                    _this._btn.className ===
+                        "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d" &&
+                    map.getTerrain()
+                ) {
+                    map.setTerrain();
+                }
+            });
+        };
+
+        this._container = document.createElement("div");
+        this._container.className = "mapboxgl-ctrl-group mapboxgl-ctrl";
+        this._container.appendChild(this._btn);
+
+        return this._container;
+    }
+
+    onRemove() {
+        this._container.parentNode.removeChild(this._container);
+        this._map = undefined;
+    }
+}
