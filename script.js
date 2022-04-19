@@ -118,14 +118,15 @@ function sidebarOpen() {
     }
 }
 
+var clickMarkerStatus = false;
+var clickMarker;
+
 map.on("click", "poi-label", (e) => {
     // Copy coordinates array.
     const coordinates = e.features[0].geometry.coordinates.slice();
     const name = e.features[0].properties.name;
 
     var osm_id = e.features[0].id;
-
-    console.log(coordinates);
 
     osm_id = Math.floor(osm_id / 10);
 
@@ -138,6 +139,14 @@ map.on("click", "poi-label", (e) => {
             return t;
         },
     });
+
+    clickMarker = new mapboxgl.Marker({
+        draggable: false,
+        color: "red",
+    })
+        .setLngLat(coordinates)
+        .addTo(map);
+    clickMarkerStatus = true;
 
     fetch(
         `https://nominatim.openstreetmap.org/lookup?osm_ids=R${osm_id},W${osm_id},N${osm_id}&format=geojson&extratags=1`
@@ -208,20 +217,6 @@ map.on("click", "poi-label", (e) => {
             } else {
                 var text = name;
             }
-
-            const description = `<h3>${name}</h3>` + text;
-            // Ensure that if the map is zoomed out such that multiple
-            // copies of the feature are visible, the popup appears
-            // over the copy being pointed to.
-
-            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-            }
-
-            new mapboxgl.Popup()
-                .setLngLat(coordinates)
-                .setHTML(description)
-                .addTo(map);
         });
 });
 
@@ -234,7 +229,12 @@ function sidebarClose() {
             duration: 1000, // In ms. This matches the CSS transition duration property.
         });
     }
+    if (clickMarkerStatus) {
+        clickMarker.remove();
+        clickMarkerStatus = false;
+    }
 }
+
 map.on("preclick", sidebarClose);
 // Change the cursor to a pointer when the mouse is over the places layer.
 map.on("mouseenter", "poi-label", () => {
