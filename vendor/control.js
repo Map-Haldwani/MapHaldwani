@@ -147,7 +147,7 @@ class ZoomControl extends Base {
     }
 }
 
-class PitchToggle {
+class terrainToggle {
     constructor({ bearing = -10, pitch = 65, minpitchzoom = 15 }) {
         this._bearing = bearing;
         this._pitch = pitch;
@@ -172,6 +172,11 @@ class PitchToggle {
                 }
                 map.setMaxPitch(65);
                 map.setTerrain({ source: "mapbox-dem", exaggeration: 1.5 });
+                map.setFog({
+                    range: [0.5, 10],
+                    color: "white",
+                    "horizon-blend": 0.1,
+                });
                 map.easeTo({
                     pitch: _this._pitch,
                     bearing: _this._bearing,
@@ -186,6 +191,7 @@ class PitchToggle {
             } else {
                 map.setMinPitch(0);
                 map.setTerrain();
+                map.setFog();
                 map.easeTo({
                     pitch: 0,
                     bearing: 0,
@@ -205,6 +211,11 @@ class PitchToggle {
                     !map.getTerrain()
                 ) {
                     map.setTerrain({ source: "mapbox-dem", exaggeration: 1.5 });
+                    map.setFog({
+                        range: [0.5, 10],
+                        color: "white",
+                        "horizon-blend": 0.1,
+                    });
                 }
                 if (
                     _this._btn.className ===
@@ -212,6 +223,7 @@ class PitchToggle {
                     map.getTerrain()
                 ) {
                     map.setTerrain();
+                    map.setFog();
                 }
             });
         };

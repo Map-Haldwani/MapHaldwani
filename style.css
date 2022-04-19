@@ -48,6 +48,7 @@ img{
 
 
 #map {
+    z-index: 1;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -58,18 +59,25 @@ img{
     background: #efefef;
     font-family: "Open Sans", sans-serif;
 }
-.geocoder {
+
+#geocoder {
     position: absolute;
-
-    z-index: 1;
-    width: 50%;
-    margin-left: 1%;
+    z-index: 2;
+    width: 100%;
+    left: 10px;
     top: 10px;
+    }
+.mobile #geocoder {
+    width: 100%;
+    left: 0;
+    top: 0;
+    }
+.mobile #map{
+    top:50px
 }
-
 .mapboxgl-ctrl-geocoder {
-    min-width: 100%;
-}
+    min-width: 50%;
+    }
 
 .rounded-rect {
     background: white;
