@@ -850,7 +850,7 @@ var satelliteStreet = {
             ],
             "tileSize": 256,
             "attribution": "Basemap: © Google"
-          }
+          },
         "composite": {
             "url": "mapbox://mapbox.mapbox-streets-v8",
             "type": "vector"
