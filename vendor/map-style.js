@@ -109,12 +109,8 @@ MapboxStyleSwitcherControl.DEFAULT_STYLES = [
         uri: satelliteStreet,
     },
     {
-        title: "Navigation Day",
-        uri: "mapbox://styles/mapbox/navigation-day-v1",
-    },
-    {
-        title: "Navigation Night",
-        uri: "mapbox://styles/lakshyajeet/cl1t49np7001214n3azx1re9l",
+        title: "Streets Dark",
+        uri: "mapbox://styles/lakshyajeet/cl2a1kcwo000715p51nzrs2z0",
     },
     {
         title: "Outdoors",
