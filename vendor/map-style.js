@@ -1,4 +1,5 @@
 const OSMstyle = {
+    version: 8,
     sources: {
         osm: {
             type: "raster",
