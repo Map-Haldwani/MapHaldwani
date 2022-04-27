@@ -2,10 +2,8 @@ const OSMstyle = {
     sources: {
         osm: {
             type: "raster",
-            //tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
-            tiles: [
-                "https://mt1.google.com/vt/lyrs=s@189&gl=cn&x={x}&y={y}&z={z}",
-            ],
+            tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+
             tileSize: 256,
             attribution:
                 '<a target="_blank" rel="noopener" href="http://openstreetmap.org">@OpenStreetMap</a> <a target="_blank" rel="noopener" href="https://www.openstreetmap.org/edit#map=13/29.2069/79.5237">Edit this map</a>',
@@ -122,6 +120,10 @@ MapboxStyleSwitcherControl.DEFAULT_STYLES = [
     },
     {
         title: "OpenStreetMap",
+        uri: OSMstyle,
+    },
+    {
+        title: "OpenStreetMap Vector",
         uri: osmStyle,
     },
 ];
