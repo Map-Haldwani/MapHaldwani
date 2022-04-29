@@ -3,14 +3,28 @@ function mobileCheck() {
     return document.body.classList.contains("mobile");
 }
 
+const Geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    countries: "in",
+    autocomplete: true,
+    localGeocoderOnly: true,
+    localGeocoder: coordinatesGeocoder,
+    externalGeocoder: forwardGeocoder,
+    zoom: 15,
+    placeholder: "Search a place",
+    mapboxgl: mapboxgl,
+});
+
 if (window.matchMedia) {
     var setMode = function () {
         if (mql.matches) {
             document.body.classList.remove("desktop");
             document.body.classList.add("mobile");
+            Geocoder.options.collapsed = false;
         } else {
             document.body.classList.remove("mobile");
             document.body.classList.add("desktop");
+            Geocoder.options.collapsed = true;
         }
     };
     var mql = matchMedia("(max-width: 500px), (max-height: 500px)");
@@ -34,19 +48,6 @@ const map = new mapboxgl.Map({
     attributionControl: false,
     hash: true,
     maxPitch: 45,
-});
-
-const Geocoder = new MapboxGeocoder({
-    accessToken: mapboxgl.accessToken,
-    countries: "in",
-    collapsed: !mobileCheck(),
-    autocomplete: true,
-    localGeocoderOnly: true,
-    localGeocoder: coordinatesGeocoder,
-    externalGeocoder: forwardGeocoder,
-    zoom: 15,
-    placeholder: "Search a place",
-    mapboxgl: mapboxgl,
 });
 
 document.getElementById("geocoder").appendChild(Geocoder.onAdd(map));
