@@ -1,3 +1,4 @@
+
 body {
     margin: 0;
     padding: 0;
@@ -112,6 +113,7 @@ img{
     left: 0.5em;
     right: 0.5em;
     bottom: 0.5em;
+    font-family: "roboto", sans-serif;
 }
 .sidebarLoading{
     position: absolute;
@@ -222,4 +224,36 @@ img{
 .mapillary-canvas{
     left: 0;
     top: 0;
+}
+
+.sidebarContentTable {
+    display: flex;
+    align-items: center;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+.sidebarContentName {
+    font-weight: thin;
+    line-height: 2.5em;
+    padding-left: 0.5em;
+}
+.sidebarContentHorizontalLine{
+    border: none;
+    height: 1px;
+    background-color:gray
+}
+#sidebarIcons {
+    fill: rgb(0, 132, 255);
+    height: 2em;
+}
+.sidebarIconDiv {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sidebarIconText{
+    width: 80%;
+    margin : 0; 
+    padding-top: 0;
 }
