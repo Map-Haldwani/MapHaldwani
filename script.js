@@ -97,6 +97,16 @@ map.addControl(
     "bottom-right"
 );
 
+map.addControl(new MapboxTraffic());
+map.addControl(new MapboxStyleSwitcherControl());
+
+var mapillaryWindowToggle = false;
+
+document.addEventListener("mapillaryWindowToggled", () => {
+    if (mapillaryWindowToggle) {
+    }
+});
+
 map.on("load", () => {
     map.flyTo({
         center: [79.51, 29.1969],
@@ -112,25 +122,6 @@ map.on("load", () => {
         },
     });
 });
-
-var trafficControl = new MapboxTraffic();
-
-map.on("styledata", (e) => {
-    if (map.hasControl(trafficControl)) {
-        map.removeControl(trafficControl);
-    }
-    map.addControl(trafficControl);
-
-    if (!map.getSource("mapbox-dem")) {
-        map.addSource("mapbox-dem", {
-            type: "raster-dem",
-            url: "mapbox://mapbox.mapbox-terrain-dem-v1",
-            tileSize: 512,
-            maxzoom: 14,
-        });
-    }
-});
-map.addControl(new MapboxStyleSwitcherControl());
 
 function sidebarOpen() {
     const sidebar = document.getElementById("leftSidebar");
@@ -213,8 +204,7 @@ map.on("click", "poi-label", (e) => {
                             directions: false,
                             zoom: false,
                         },
-                        accessToken:
-                            "MLY|5156776201075853|07025564e8b4277b5f54d38b3807eedc",
+                        accessToken: mapillatyAccesToken,
                         container: "imagePlaceholder", // the ID of our container defined in the HTML body
                         imageId:
                             data.features[0].properties.extratags.mapillary,
@@ -292,3 +282,5 @@ map.on("mouseenter", "poi-label", () => {
 map.on("mouseleave", "poi-label", () => {
     map.getCanvas().style.cursor = "";
 });
+
+map.addControl(new mapillaryViewerButton(), "top-right");
