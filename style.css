@@ -1,7 +1,114 @@
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-body {
-    margin: 0;
-    padding: 0;
+.mainWindow{
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.subWindow{
+    position: absolute;
+    bottom: 2.5em;
+    left: 2.5em;
+    width: 25em;
+    height: 15em;
+    z-index: 2;
+}
+
+#map {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%; 
+}
+
+#imageWindow{
+    z-index: -1;
+}
+#mapillaryWindowToggle{
+    z-index: -1;
+    cursor: pointer
+}
+.mapillaryPopup{
+    z-index: 5;
+}
+.mapillaryPopup .mapboxgl-popup-content{
+    border-radius: 1em;
+    width: 15em;
+    height: 10em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mapillaryPreviewImg{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.5em;
+    top: 0;
+}
+
+
+
+#mapillaryWindowDiv{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    
+}
+
+#mapillaryWindow{
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0);
+}
+
+#mapillaryWindowLoader {
+    mix-blend-mode: darken;
+    display: none;
+    position: absolute;
+    width:5em; 
+    z-index: 2;
+}
+
+#mapillaryWindowToggleButton {
+    position: absolute;
+    bottom: 14.91em;
+    left: 23.42em;
+    width: 0;
+    height: 0;
+    background-color: transparent;
+    border-right: 3em solid transparent;
+    border-bottom: 3em solid rgba(0,0,0,0.5);
+    border-left: 3em solid transparent;
+    border-top: 0px solid transparent;
+    transform: rotate(45deg);
+}
+
+#mapillaryWindowToggleButtonIcon{
+    position: absolute;
+    bottom: 14.6em;
+    left: 24.6em;
+    width: 3em;
+    height: 3em;
+    fill: #fff;
+    transform: rotate(45deg);
 }
 
 img{
@@ -17,13 +124,15 @@ img{
 .loader {
     position: absolute;
     z-index: 9999;
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     overflow: hidden;
     background-color: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
+    top: 0;
+    bottom: 0;
 }
 .loading{
     text-align: center;
@@ -47,14 +156,6 @@ img{
     height: 3em;
 }
 
-
-#map {
-    z-index: 1;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 100%;
-}
 #menu {
     position: absolute;
     background: #efefef;
