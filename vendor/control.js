@@ -157,20 +157,33 @@ class terrainToggle {
     onAdd(map) {
         this._map = map;
         let _this = this;
-
+        this._map.on("load", () => {
+            if (!map.getSource("mapbox-dem")) {
+                map.addSource("mapbox-dem", {
+                    type: "raster-dem",
+                    url: "mapbox://mapbox.mapbox-terrain-dem-v1",
+                    tileSize: 512,
+                    maxzoom: 14,
+                });
+            }
+        });
         this._btn = document.createElement("button");
         this._btn.className = "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d";
         this._btn.type = "button";
         this._btn["aria-label"] = "Toggle Pitch";
         this._btn.onclick = function () {
-            if (map.getPitch() <= 45) {
+            if (
+                _this._btn.className ===
+                "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d"
+            ) {
                 let minZoom = _this._minpitchzoom;
                 const curZoom = map.getZoom();
 
                 if (minZoom && curZoom < minZoom) {
                     minZoom = curZoom;
                 }
-                map.setMaxPitch(65);
+
+                map.setMaxPitch();
                 map.setTerrain({ source: "mapbox-dem", exaggeration: 1.5 });
                 map.setFog({
                     range: [0.5, 10],
@@ -184,12 +197,10 @@ class terrainToggle {
                     duration: 1000,
                 });
                 delay(1000).then(() => {
-                    map.setMinPitch(65);
                     _this._btn.className =
                         "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-2d";
                 });
             } else {
-                map.setMinPitch(0);
                 map.setTerrain();
                 map.setFog();
                 map.easeTo({
@@ -210,6 +221,14 @@ class terrainToggle {
                         "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-2d" &&
                     !map.getTerrain()
                 ) {
+                    if (!map.getSource("mapbox-dem")) {
+                        map.addSource("mapbox-dem", {
+                            type: "raster-dem",
+                            url: "mapbox://mapbox.mapbox-terrain-dem-v1",
+                            tileSize: 512,
+                            maxzoom: 14,
+                        });
+                    }
                     map.setTerrain({ source: "mapbox-dem", exaggeration: 1.5 });
                     map.setFog({
                         range: [0.5, 10],
