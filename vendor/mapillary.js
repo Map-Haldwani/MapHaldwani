@@ -12,7 +12,7 @@ class mapillaryViewerButton {
             if (!mapillaryStatus) {
                 mapillaryStatus = true;
 
-                if (!map.getSource("mapillary")) {
+                if (!map.getSource("mapillaryImages")) {
                     map.addSource("mapillaryImages", {
                         type: "vector",
                         tiles: [
@@ -23,44 +23,20 @@ class mapillaryViewerButton {
                         promoteId: { image: "id" },
                     });
                 }
-
-                map.addLayer({
-                    id: "mapillary-images",
-                    type: "circle",
-                    source: "mapillaryImages",
-                    "source-layer": "image",
-                    paint: {
-                        "circle-radius": [
-                            "case",
-                            ["boolean", ["feature-state", "hover"], false],
-                            7,
-                            6,
-                        ],
-                        "circle-opacity": 1,
-                        "circle-color": [
-                            "case",
-                            ["boolean", ["feature-state", "selected"], false],
-                            "#00bcff",
-                            "#05CB63",
-                        ],
-                        "circle-stroke-color": "#ffffff",
-                        "circle-stroke-width": [
-                            "case",
-                            ["boolean", ["feature-state", "hover"], false],
-                            3,
-                            0,
-                        ],
-                    },
-                });
-                map.addLayer(
-                    {
-                        id: "mapillary-images-360",
+                if (!map.getLayer("mapillary-images")) {
+                    map.addLayer({
+                        id: "mapillary-images",
                         type: "circle",
                         source: "mapillaryImages",
                         "source-layer": "image",
                         paint: {
-                            "circle-radius": 20,
-                            "circle-opacity": 0.4,
+                            "circle-radius": [
+                                "case",
+                                ["boolean", ["feature-state", "hover"], false],
+                                7,
+                                6,
+                            ],
+                            "circle-opacity": 1,
                             "circle-color": [
                                 "case",
                                 [
@@ -71,14 +47,45 @@ class mapillaryViewerButton {
                                 "#00bcff",
                                 "#05CB63",
                             ],
+                            "circle-stroke-color": "#ffffff",
+                            "circle-stroke-width": [
+                                "case",
+                                ["boolean", ["feature-state", "hover"], false],
+                                3,
+                                0,
+                            ],
                         },
-                        filter: ["==", "is_pano", true],
-                        minzoom: 17,
-                    },
-                    "mapillary-images"
-                );
+                    });
+                }
+                if (!map.getLayer("mapillary-images-360")) {
+                    map.addLayer(
+                        {
+                            id: "mapillary-images-360",
+                            type: "circle",
+                            source: "mapillaryImages",
+                            "source-layer": "image",
+                            paint: {
+                                "circle-radius": 20,
+                                "circle-opacity": 0.4,
+                                "circle-color": [
+                                    "case",
+                                    [
+                                        "boolean",
+                                        ["feature-state", "selected"],
+                                        false,
+                                    ],
+                                    "#00bcff",
+                                    "#05CB63",
+                                ],
+                            },
+                            filter: ["==", "is_pano", true],
+                            minzoom: 17,
+                        },
+                        "mapillary-images"
+                    );
+                }
 
-                if (!map.getLayer("mapillarySequences")) {
+                if (!map.getSource("mapillarySequences")) {
                     map.addSource("mapillarySequences", {
                         type: "vector",
                         tiles: [
@@ -89,39 +96,40 @@ class mapillaryViewerButton {
                         promoteId: { sequence: "id" },
                     });
                 }
-
-                map.addLayer(
-                    {
-                        id: "mapillary-sequence",
-                        type: "line",
-                        source: "mapillarySequences",
-                        "source-layer": "sequence",
-                        layout: {
-                            "line-cap": "round",
-                            "line-join": "round",
-                        },
-                        paint: {
-                            "line-opacity": 0.6,
-                            "line-color": [
-                                "case",
-                                [
-                                    "boolean",
-                                    ["feature-state", "selected"],
-                                    false,
+                if (!map.getLayer("mapillary-sequences")) {
+                    map.addLayer(
+                        {
+                            id: "mapillary-sequences",
+                            type: "line",
+                            source: "mapillarySequences",
+                            "source-layer": "sequence",
+                            layout: {
+                                "line-cap": "round",
+                                "line-join": "round",
+                            },
+                            paint: {
+                                "line-opacity": 0.6,
+                                "line-color": [
+                                    "case",
+                                    [
+                                        "boolean",
+                                        ["feature-state", "selected"],
+                                        false,
+                                    ],
+                                    "#00bcff",
+                                    "#05CB63",
                                 ],
-                                "#00bcff",
-                                "#05CB63",
-                            ],
-                            "line-width": 2,
+                                "line-width": 2,
+                            },
                         },
-                    },
-                    "road-label"
-                );
+                        "mapillary-images"
+                    );
+                }
             } else {
                 mapillaryStatus = false;
                 map.removeLayer("mapillary-images");
                 map.removeLayer("mapillary-images-360");
-                map.removeLayer("mapillary-sequence");
+                map.removeLayer("mapillary-sequences");
                 map.removeSource("mapillaryImages");
                 map.removeSource("mapillarySequences");
 
@@ -137,6 +145,124 @@ class mapillaryViewerButton {
         this._container = document.createElement("div");
         this._container.className = "mapboxgl-ctrl-group mapboxgl-ctrl";
         this._container.appendChild(this._btn);
+
+        map.on("styledata", () => {
+            if (mapillaryStatus) {
+                if (!map.getSource("mapillaryImages")) {
+                    map.addSource("mapillaryImages", {
+                        type: "vector",
+                        tiles: [
+                            `https://tiles.mapillary.com/maps/vtp/mly1_public/2/{z}/{x}/{y}?access_token=${mapillatyAccesToken}`,
+                        ],
+                        minzoom: 6,
+                        maxzoom: 14,
+                        promoteId: { image: "id" },
+                    });
+                }
+                if (!map.getLayer("mapillary-images")) {
+                    map.addLayer({
+                        id: "mapillary-images",
+                        type: "circle",
+                        source: "mapillaryImages",
+                        "source-layer": "image",
+                        paint: {
+                            "circle-radius": [
+                                "case",
+                                ["boolean", ["feature-state", "hover"], false],
+                                7,
+                                6,
+                            ],
+                            "circle-opacity": 1,
+                            "circle-color": [
+                                "case",
+                                [
+                                    "boolean",
+                                    ["feature-state", "selected"],
+                                    false,
+                                ],
+                                "#00bcff",
+                                "#05CB63",
+                            ],
+                            "circle-stroke-color": "#ffffff",
+                            "circle-stroke-width": [
+                                "case",
+                                ["boolean", ["feature-state", "hover"], false],
+                                3,
+                                0,
+                            ],
+                        },
+                    });
+                }
+                if (!map.getLayer("mapillary-images-360")) {
+                    map.addLayer(
+                        {
+                            id: "mapillary-images-360",
+                            type: "circle",
+                            source: "mapillaryImages",
+                            "source-layer": "image",
+                            paint: {
+                                "circle-radius": 20,
+                                "circle-opacity": 0.4,
+                                "circle-color": [
+                                    "case",
+                                    [
+                                        "boolean",
+                                        ["feature-state", "selected"],
+                                        false,
+                                    ],
+                                    "#00bcff",
+                                    "#05CB63",
+                                ],
+                            },
+                            filter: ["==", "is_pano", true],
+                            minzoom: 17,
+                        },
+                        "mapillary-images"
+                    );
+                }
+
+                if (!map.getSource("mapillarySequences")) {
+                    map.addSource("mapillarySequences", {
+                        type: "vector",
+                        tiles: [
+                            `https://tiles.mapillary.com/maps/vtp/mly1_public/2/{z}/{x}/{y}?access_token=${mapillatyAccesToken}`,
+                        ],
+                        minzoom: 6,
+                        maxzoom: 14,
+                        promoteId: { sequence: "id" },
+                    });
+                }
+                if (!map.getLayer("mapillary-sequences")) {
+                    map.addLayer(
+                        {
+                            id: "mapillary-sequences",
+                            type: "line",
+                            source: "mapillarySequences",
+                            "source-layer": "sequence",
+                            layout: {
+                                "line-cap": "round",
+                                "line-join": "round",
+                            },
+                            paint: {
+                                "line-opacity": 0.6,
+                                "line-color": [
+                                    "case",
+                                    [
+                                        "boolean",
+                                        ["feature-state", "selected"],
+                                        false,
+                                    ],
+                                    "#00bcff",
+                                    "#05CB63",
+                                ],
+                                "line-width": 2,
+                            },
+                        },
+                        "mapillary-images"
+                    );
+                }
+            }
+        });
 
         const mapillaryPopup = new mapboxgl.Popup({
             closeButton: false,
