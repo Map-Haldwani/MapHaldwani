@@ -48,6 +48,7 @@ const map = new mapboxgl.Map({
     attributionControl: false,
     hash: true,
     maxPitch: 45,
+    minZoom: 12,
 });
 
 document.getElementById("geocoder").appendChild(Geocoder.onAdd(map));

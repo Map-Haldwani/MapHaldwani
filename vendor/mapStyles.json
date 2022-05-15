@@ -13,31 +13,31 @@ var satelliteStreet = {
         "mapbox:groups": {
             "Transit, transit-labels": {
                 "name": "Transit, transit-labels",
-                "collapsed": false
+                "collapsed": true
             },
             "Administrative boundaries, admin": {
                 "name": "Administrative boundaries, admin",
-                "collapsed": false
+                "collapsed": true
             },
             "Road network, bridges": {
                 "name": "Road network, bridges",
-                "collapsed": false
+                "collapsed": true
             },
             "Road network, tunnels": {
                 "name": "Road network, tunnels",
-                "collapsed": false
+                "collapsed": true
             },
             "Road network, road-labels": {
                 "name": "Road network, road-labels",
-                "collapsed": false
+                "collapsed": true
             },
             "Natural features, natural-labels": {
                 "name": "Natural features, natural-labels",
-                "collapsed": false
+                "collapsed": true
             },
             "Road network, surface": {
                 "name": "Road network, surface",
-                "collapsed": false
+                "collapsed": true
             },
             "Walking, cycling, etc., barriers-bridges": {
                 "name": "Walking, cycling, etc., barriers-bridges",
@@ -45,15 +45,15 @@ var satelliteStreet = {
             },
             "Place labels, place-labels": {
                 "name": "Place labels, place-labels",
-                "collapsed": false
+                "collapsed": true
             },
             "Transit, elevated": {
                 "name": "Transit, elevated",
-                "collapsed": false
+                "collapsed": true
             },
             "Point of interest labels, poi-labels": {
                 "name": "Point of interest labels, poi-labels",
-                "collapsed": false
+                "collapsed": true
             },
             "Walking, cycling, etc., tunnels": {
                 "name": "Walking, cycling, etc., tunnels",
@@ -61,7 +61,7 @@ var satelliteStreet = {
             },
             "Road network, tunnels-case": {
                 "name": "Road network, tunnels-case",
-                "collapsed": false
+                "collapsed": true
             },
             "Walking, cycling, etc., surface": {
                 "name": "Walking, cycling, etc., surface",
@@ -69,7 +69,7 @@ var satelliteStreet = {
             },
             "Road network, surface-icons": {
                 "name": "Road network, surface-icons",
-                "collapsed": false
+                "collapsed": true
             },
             "Satellite imagery, land": {
                 "name": "Satellite imagery, land",
@@ -448,6 +448,12 @@ var satelliteStreet = {
                                     "pin-car-wash",
                                     ["Painter"],
                                     "pin-painter",
+                                    ["Events venue"],
+                                    "pin-eventsvenue",
+                                    ["Funeral directors"],
+                                    "pin-cemetery-JP",
+                                    ["Company"],
+                                    "pin-suitcase",
                                     ["concat", "pin-", ["get", "maki"]]
                                 ],
                                 [
@@ -521,7 +527,17 @@ var satelliteStreet = {
                                     true,
                                     false
                                 ],
-                                "pin-industry",
+                                [
+                                    "match",
+                                    ["get", "type"],
+                                    ["Harbour"],
+                                    "pin-harbor",
+                                    ["Military"],
+                                    "pin-military",
+                                    ["Works", "Industrial"],
+                                    "pin-industry",
+                                    ["concat", "pin-", ["get", "maki"]]
+                                ],
                                 [
                                     "match",
                                     ["get", "category_en"],
@@ -546,6 +562,87 @@ var satelliteStreet = {
                                     false
                                 ],
                                 "pin-butcher",
+                                [
+                                    "match",
+                                    ["get", "class"],
+                                    ["landmark"],
+                                    true,
+                                    false
+                                ],
+                                [
+                                    "case",
+                                    ["==", ["get", "maki"], "marker"],
+                                    "pin-landmark",
+                                    ["concat", "pin-", ["get", "maki"]]
+                                ],
+                                [
+                                    "match",
+                                    ["get", "type"],
+                                    [
+                                        "Townhall",
+                                        "Government",
+                                        "Community centre"
+                                    ],
+                                    true,
+                                    false
+                                ],
+                                "pin-town-hall",
+                                [
+                                    "match",
+                                    ["get", "type"],
+                                    ["Social facility"],
+                                    true,
+                                    false
+                                ],
+                                "pin-social",
+                                [
+                                    "match",
+                                    ["get", "type"],
+                                    ["Attraction"],
+                                    true,
+                                    false
+                                ],
+                                "pin-attraction",
+                                [
+                                    "match",
+                                    ["get", "type"],
+                                    ["Baseball"],
+                                    true,
+                                    false
+                                ],
+                                "pin-baseball",
+                                [
+                                    "match",
+                                    ["get", "type"],
+                                    ["Fitness centre", "Fitness Centre"],
+                                    true,
+                                    false
+                                ],
+                                "pin-fitness-centre",
+                                [
+                                    "match",
+                                    ["get", "type"],
+                                    ["Kindergarten"],
+                                    true,
+                                    false
+                                ],
+                                "pin-school",
+                                [
+                                    "match",
+                                    ["get", "type"],
+                                    ["School"],
+                                    true,
+                                    false
+                                ],
+                                "pin-school",
+                                [
+                                    "match",
+                                    ["get", "type"],
+                                    ["Sports centre"],
+                                    true,
+                                    false
+                                ],
+                                "pin-pitch",
                                 ["concat", "pin-", ["get", "maki"]]
                             ],
                             "text-justify": "auto",
@@ -633,14 +730,211 @@ var satelliteStreet = {
                     "country-label": {"paint": {"text-halo-width": 2}}
                 },
                 "road-network": {
+                    "road-construction-navigation": {
+                        "paint": {
+                            "line-opacity": [
+                                "interpolate",
+                                ["linear"],
+                                ["zoom"],
+                                13,
+                                1,
+                                19,
+                                0
+                            ]
+                        }
+                    },
+                    "road-major-link-navigation": {
+                        "paint": {
+                            "line-opacity": [
+                                "interpolate",
+                                ["linear"],
+                                ["zoom"],
+                                13,
+                                1,
+                                19,
+                                0
+                            ]
+                        }
+                    },
+                    "road-secondary-tertiary-navigation": {
+                        "paint": {
+                            "line-opacity": [
+                                "interpolate",
+                                ["linear"],
+                                ["zoom"],
+                                13,
+                                1,
+                                19,
+                                0
+                            ]
+                        }
+                    },
+                    "road-street-low-navigation": {
+                        "paint": {
+                            "line-opacity": [
+                                "interpolate",
+                                ["linear"],
+                                ["zoom"],
+                                13,
+                                1,
+                                19,
+                                0
+                            ]
+                        }
+                    },
+                    "road-motorway-trunk-case-low-navigation": {
+                        "paint": {
+                            "line-opacity": [
+                                "interpolate",
+                                ["linear"],
+                                ["zoom"],
+                                13,
+                                1,
+                                19,
+                                0
+                            ]
+                        }
+                    },
+                    "road-primary-navigation": {
+                        "paint": {
+                            "line-opacity": [
+                                "interpolate",
+                                ["linear"],
+                                ["zoom"],
+                                13,
+                                1,
+                                19,
+                                0
+                            ]
+                        }
+                    },
+                    "road-minor-case-navigation": {
+                        "paint": {
+                            "line-opacity": [
+                                "interpolate",
+                                ["linear"],
+                                ["zoom"],
+                                13,
+                                1,
+                                19,
+                                0
+                            ]
+                        }
+                    },
+                    "road-street-navigation": {
+                        "paint": {
+                            "line-opacity": [
+                                "interpolate",
+                                ["linear"],
+                                ["zoom"],
+                                13,
+                                1,
+                                19,
+                                0
+                            ]
+                        }
+                    },
+                    "road-motorway-trunk-case-navigation": {
+                        "paint": {
+                            "line-opacity": [
+                                "interpolate",
+                                ["linear"],
+                                ["zoom"],
+                                13,
+                                1,
+                                19,
+                                0
+                            ]
+                        }
+                    },
+                    "road-motorway-trunk-navigation": {
+                        "paint": {
+                            "line-opacity": [
+                                "interpolate",
+                                ["linear"],
+                                ["zoom"],
+                                13,
+                                1,
+                                19,
+                                0
+                            ]
+                        }
+                    },
+                    "road-street-case-navigation": {
+                        "paint": {
+                            "line-opacity": [
+                                "interpolate",
+                                ["linear"],
+                                ["zoom"],
+                                13,
+                                1,
+                                19,
+                                0
+                            ]
+                        }
+                    },
+                    "road-minor-navigation": {
+                        "paint": {
+                            "line-opacity": [
+                                "interpolate",
+                                ["linear"],
+                                ["zoom"],
+                                13,
+                                1,
+                                19,
+                                0
+                            ]
+                        }
+                    },
+                    "road-primary-case-navigation": {
+                        "paint": {
+                            "line-opacity": [
+                                "interpolate",
+                                ["linear"],
+                                ["zoom"],
+                                13,
+                                1,
+                                19,
+                                0
+                            ]
+                        }
+                    },
                     "road-label-navigation": {
                         "paint": {
-                            "text-halo-width": 2,
-                            "text-halo-color": "#6e6d6b"
+                            "text-halo-color": "#000000",
+                            "text-halo-blur": 0.5,
+                            "text-halo-width": 2
                         },
                         "layout": {
-                            "text-ignore-placement": true,
-                            "text-allow-overlap": {"remove": true}
+                            "text-ignore-placement": {"remove": true},
+                            "text-allow-overlap": {"remove": true},
+                            "symbol-spacing": 1
+                        }
+                    },
+                    "road-secondary-tertiary-case-navigation": {
+                        "paint": {
+                            "line-opacity": [
+                                "interpolate",
+                                ["linear"],
+                                ["zoom"],
+                                13,
+                                1,
+                                19,
+                                0
+                            ]
+                        }
+                    },
+                    "road-major-link-case-navigation": {
+                        "paint": {
+                            "line-opacity": [
+                                "interpolate",
+                                ["linear"],
+                                ["zoom"],
+                                13,
+                                1,
+                                19,
+                                0
+                            ]
                         }
                     }
                 },
@@ -711,16 +1005,16 @@ var satelliteStreet = {
                 },
                 "road-network": {
                     "roadsFont": [
-                        "Montserrat Regular",
+                        "Montserrat Bold",
                         "Arial Unicode MS Regular"
                     ],
-                    "colorRoad": "hsla(0, 0%, 90%, 0.5)",
+                    "colorRoad": "#888888",
                     "roadOutlineWidth": 1.7,
                     "trafficSignals": true,
                     "roadNetwork": "Navigation",
                     "iconColorScheme": "Full color",
                     "construction": true,
-                    "colorRoadLabel": "#ffffff",
+                    "colorRoadLabel": "hsl(0, 0%, 100%)",
                     "fadeOutRoadsOnZoom": true,
                     "colorBase": "#000000",
                     "railwayCrossings": true,
@@ -734,16 +1028,16 @@ var satelliteStreet = {
                 "walking-cycling": {
                     "walkingCyclingPiste": false,
                     "roadsFont": [
-                        "Montserrat Regular",
+                        "Montserrat Bold",
                         "Arial Unicode MS Regular"
                     ],
                     "controlDashStyle": true,
-                    "colorRoad": "hsla(0, 0%, 90%, 0.5)",
+                    "colorRoad": "#888888",
                     "golfHoleLabelLine": false,
                     "colorGreenspace": "#bfe3c3",
                     "colorGreenspaceLabel": "#ffffff",
                     "walkingCyclingPisteBackground": true,
-                    "colorRoadLabel": "#ffffff",
+                    "colorRoadLabel": "hsl(0, 0%, 100%)",
                     "colorBase": "#000000",
                     "gatesFencesHedges": false,
                     "poiEtcFont": [
@@ -792,14 +1086,14 @@ var satelliteStreet = {
                 "transit": {
                     "matchLabelAndIcon": false,
                     "roadsFont": [
-                        "Montserrat Regular",
+                        "Montserrat Bold",
                         "Arial Unicode MS Regular"
                     ],
-                    "colorRoad": "hsla(0, 0%, 90%, 0.5)",
+                    "colorRoad": "#888888",
                     "aeroways": false,
                     "colorAirport": "hsl(0, 0%, 100%)",
                     "colorTransit": "hsl(0, 0%, 100%)",
-                    "colorRoadLabel": "#ffffff",
+                    "colorRoadLabel": "hsl(0, 0%, 100%)",
                     "colorBase": "#000000",
                     "colorWater": "#abdbe3",
                     "railways": false,
@@ -844,19 +1138,19 @@ var satelliteStreet = {
     "light": {"anchor": "viewport", "color": "hsl(0, 0%, 100%)"},
     "sources": {
         "mapbox://mapbox.satellite": {
-            "type": "raster",
             "tiles": [
-              "https://mt1.google.com/vt/lyrs=s@189&gl=cn&x={x}&y={y}&z={z}"
-            ],
+                "https://mt1.google.com/vt/lyrs=s@189&gl=cn&x={x}&y={y}&z={z}"
+              ],
+            "type": "raster",
             "tileSize": 256,
             "attribution": "Basemap: © Google"
-          },
+        },
         "composite": {
             "url": "mapbox://mapbox.mapbox-streets-v8",
             "type": "vector"
         }
     },
-    "sprite": "mapbox://sprites/lakshyajeet/ckuw6ho682rig18qp8ldx5wkl/9x58m5de3frdm25mpj7ti57ed",
+    "sprite": "mapbox://sprites/lakshyajeet/ckuw6ho682rig18qp8ldx5wkl/9co4x7vm403aq71xmcqulcxg5",
     "glyphs": "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
     "layers": [
         {
@@ -969,7 +1263,7 @@ var satelliteStreet = {
                     14,
                     2
                 ],
-                "line-color": "hsla(0, 0%, 90%, 0.5)",
+                "line-color": "#888888",
                 "line-opacity": [
                     "interpolate",
                     ["linear"],
@@ -1396,7 +1690,7 @@ var satelliteStreet = {
                     18,
                     10
                 ],
-                "line-color": "hsla(0, 0%, 90%, 0.5)",
+                "line-color": "#888888",
                 "line-opacity": [
                     "interpolate",
                     ["linear"],
@@ -1443,7 +1737,7 @@ var satelliteStreet = {
                     18,
                     20
                 ],
-                "line-color": "hsla(0, 0%, 90%, 0.5)",
+                "line-color": "#888888",
                 "line-opacity": [
                     "interpolate",
                     ["linear"],
@@ -1488,7 +1782,7 @@ var satelliteStreet = {
                     18,
                     28
                 ],
-                "line-color": "hsla(0, 0%, 90%, 0.5)",
+                "line-color": "#888888",
                 "line-opacity": [
                     "interpolate",
                     ["linear"],
@@ -1527,7 +1821,7 @@ var satelliteStreet = {
                     18,
                     32
                 ],
-                "line-color": "hsla(0, 0%, 90%, 0.5)",
+                "line-color": "#888888",
                 "line-opacity": [
                     "interpolate",
                     ["linear"],
@@ -1756,7 +2050,7 @@ var satelliteStreet = {
                     18,
                     17
                 ],
-                "circle-color": "hsla(0, 0%, 90%, 0.5)",
+                "circle-color": "#888888",
                 "circle-opacity": 0,
                 "circle-stroke-width": [
                     "interpolate",
@@ -1821,7 +2115,7 @@ var satelliteStreet = {
                     ["zoom"],
                     13,
                     1,
-                    15,
+                    19,
                     0
                 ]
             }
@@ -1863,14 +2157,14 @@ var satelliteStreet = {
                     14,
                     2
                 ],
-                "line-color": "hsla(0, 0%, 90%, 0.5)",
+                "line-color": "#888888",
                 "line-opacity": [
                     "interpolate",
                     ["linear"],
                     ["zoom"],
                     13,
                     1,
-                    15,
+                    19,
                     0
                 ]
             }
@@ -1927,7 +2221,7 @@ var satelliteStreet = {
                     ["zoom"],
                     13,
                     1,
-                    15,
+                    19,
                     0
                 ]
             }
@@ -1981,7 +2275,7 @@ var satelliteStreet = {
                     ["zoom"],
                     13,
                     1,
-                    15,
+                    19,
                     0
                 ]
             }
@@ -2029,7 +2323,7 @@ var satelliteStreet = {
                     ["zoom"],
                     13,
                     1,
-                    15,
+                    19,
                     0
                 ]
             }
@@ -2094,7 +2388,7 @@ var satelliteStreet = {
                     ["zoom"],
                     13,
                     1,
-                    15,
+                    19,
                     0
                 ]
             }
@@ -2148,7 +2442,7 @@ var satelliteStreet = {
                     ["zoom"],
                     13,
                     1,
-                    15,
+                    19,
                     0
                 ]
             }
@@ -2180,7 +2474,7 @@ var satelliteStreet = {
                     18,
                     20
                 ],
-                "line-color": "hsla(0, 0%, 90%, 0.5)",
+                "line-color": "#888888",
                 "line-dasharray": [
                     "step",
                     ["zoom"],
@@ -2200,7 +2494,7 @@ var satelliteStreet = {
                     ["zoom"],
                     13,
                     1,
-                    15,
+                    19,
                     0
                 ]
             }
@@ -2256,7 +2550,7 @@ var satelliteStreet = {
                     ["zoom"],
                     13,
                     1,
-                    15,
+                    19,
                     0
                 ]
             }
@@ -2294,14 +2588,14 @@ var satelliteStreet = {
                     18,
                     10
                 ],
-                "line-color": "hsla(0, 0%, 90%, 0.5)",
+                "line-color": "#888888",
                 "line-opacity": [
                     "interpolate",
                     ["linear"],
                     ["zoom"],
                     13,
                     1,
-                    15,
+                    19,
                     0
                 ]
             }
@@ -2341,14 +2635,14 @@ var satelliteStreet = {
                     18,
                     20
                 ],
-                "line-color": "hsla(0, 0%, 90%, 0.5)",
+                "line-color": "#888888",
                 "line-opacity": [
                     "interpolate",
                     ["linear"],
                     ["zoom"],
                     13,
                     1,
-                    15,
+                    19,
                     0
                 ]
             }
@@ -2391,14 +2685,14 @@ var satelliteStreet = {
                     18,
                     28
                 ],
-                "line-color": "hsla(0, 0%, 90%, 0.5)",
+                "line-color": "#888888",
                 "line-opacity": [
                     "interpolate",
                     ["linear"],
                     ["zoom"],
                     13,
                     1,
-                    15,
+                    19,
                     0
                 ]
             }
@@ -2433,14 +2727,14 @@ var satelliteStreet = {
                     18,
                     32
                 ],
-                "line-color": "hsla(0, 0%, 90%, 0.5)",
+                "line-color": "#888888",
                 "line-opacity": [
                     "interpolate",
                     ["linear"],
                     ["zoom"],
                     13,
                     1,
-                    15,
+                    19,
                     0
                 ]
             }
@@ -2507,7 +2801,7 @@ var satelliteStreet = {
                     ["zoom"],
                     13,
                     1,
-                    15,
+                    19,
                     0
                 ]
             }
@@ -2628,7 +2922,7 @@ var satelliteStreet = {
                         ["get", "class"],
                         "motorway",
                         "hsla(36, 87%, 68%, 0.7)",
-                        "hsla(0, 0%, 90%, 0.5)"
+                        "#888888"
                     ],
                     6,
                     [
@@ -2645,7 +2939,7 @@ var satelliteStreet = {
                     ["zoom"],
                     13,
                     1,
-                    15,
+                    19,
                     0
                 ]
             }
@@ -2764,7 +3058,7 @@ var satelliteStreet = {
                     18,
                     17
                 ],
-                "circle-color": "hsla(0, 0%, 90%, 0.5)",
+                "circle-color": "#888888",
                 "circle-opacity": 0
             }
         },
@@ -2856,7 +3150,7 @@ var satelliteStreet = {
                     14,
                     2
                 ],
-                "line-color": "hsla(0, 0%, 90%, 0.5)",
+                "line-color": "#888888",
                 "line-opacity": [
                     "interpolate",
                     ["linear"],
@@ -3281,7 +3575,7 @@ var satelliteStreet = {
                     18,
                     10
                 ],
-                "line-color": "hsla(0, 0%, 90%, 0.5)",
+                "line-color": "#888888",
                 "line-opacity": [
                     "interpolate",
                     ["linear"],
@@ -3328,7 +3622,7 @@ var satelliteStreet = {
                     18,
                     20
                 ],
-                "line-color": "hsla(0, 0%, 90%, 0.5)",
+                "line-color": "#888888",
                 "line-opacity": [
                     "interpolate",
                     ["linear"],
@@ -3376,7 +3670,7 @@ var satelliteStreet = {
                     18,
                     28
                 ],
-                "line-color": "hsla(0, 0%, 90%, 0.5)",
+                "line-color": "#888888",
                 "line-opacity": [
                     "interpolate",
                     ["linear"],
@@ -3415,7 +3709,7 @@ var satelliteStreet = {
                     18,
                     32
                 ],
-                "line-color": "hsla(0, 0%, 90%, 0.5)",
+                "line-color": "#888888",
                 "line-opacity": [
                     "interpolate",
                     ["linear"],
@@ -4261,20 +4555,9 @@ var satelliteStreet = {
                         30
                     ]
                 ],
-                "text-ignore-placement": true,
                 "text-max-angle": 30,
-                "symbol-spacing": [
-                    "interpolate",
-                    ["linear"],
-                    ["zoom"],
-                    10,
-                    150,
-                    18,
-                    450,
-                    22,
-                    1500
-                ],
-                "text-font": ["Montserrat Regular", "Arial Unicode MS Regular"],
+                "symbol-spacing": 1,
+                "text-font": ["Montserrat Bold", "Arial Unicode MS Regular"],
                 "symbol-placement": "line",
                 "text-padding": 1,
                 "text-rotation-alignment": "map",
@@ -4283,10 +4566,10 @@ var satelliteStreet = {
                 "text-letter-spacing": 0.01
             },
             "paint": {
-                "text-color": "#ffffff",
-                "text-halo-color": "#6e6d6b",
+                "text-color": "hsl(0, 0%, 100%)",
+                "text-halo-color": "#000000",
                 "text-halo-width": 2,
-                "text-halo-blur": 1
+                "text-halo-blur": 0.5
             }
         },
         {
@@ -4445,7 +4728,7 @@ var satelliteStreet = {
                     13
                 ],
                 "text-max-angle": 30,
-                "text-font": ["Montserrat Regular", "Arial Unicode MS Regular"],
+                "text-font": ["Montserrat Bold", "Arial Unicode MS Regular"],
                 "symbol-placement": "line",
                 "text-padding": 1,
                 "text-rotation-alignment": "map",
@@ -4459,7 +4742,7 @@ var satelliteStreet = {
                     ["get", "class"],
                     "ferry",
                     "rgb(129, 161, 167)",
-                    "#ffffff"
+                    "hsl(0, 0%, 100%)"
                 ],
                 "text-halo-color": [
                     "match",
@@ -5049,6 +5332,12 @@ var satelliteStreet = {
                         "pin-car-wash",
                         ["Painter"],
                         "pin-painter",
+                        ["Events venue"],
+                        "pin-eventsvenue",
+                        ["Funeral directors"],
+                        "pin-cemetery-JP",
+                        ["Company"],
+                        "pin-suitcase",
                         ["concat", "pin-", ["get", "maki"]]
                     ],
                     [
@@ -5086,7 +5375,17 @@ var satelliteStreet = {
                     ],
                     "pin-ruins",
                     ["match", ["get", "class"], ["industrial"], true, false],
-                    "pin-industry",
+                    [
+                        "match",
+                        ["get", "type"],
+                        ["Harbour"],
+                        "pin-harbor",
+                        ["Military"],
+                        "pin-military",
+                        ["Works", "Industrial"],
+                        "pin-industry",
+                        ["concat", "pin-", ["get", "maki"]]
+                    ],
                     [
                         "match",
                         ["get", "category_en"],
@@ -5099,6 +5398,47 @@ var satelliteStreet = {
                     "pin-bakery",
                     ["match", ["get", "type"], ["Butcher"], true, false],
                     "pin-butcher",
+                    ["match", ["get", "class"], ["landmark"], true, false],
+                    [
+                        "case",
+                        ["==", ["get", "maki"], "marker"],
+                        "pin-landmark",
+                        ["concat", "pin-", ["get", "maki"]]
+                    ],
+                    [
+                        "match",
+                        ["get", "type"],
+                        ["Townhall", "Government", "Community centre"],
+                        true,
+                        false
+                    ],
+                    "pin-town-hall",
+                    [
+                        "match",
+                        ["get", "type"],
+                        ["Social facility"],
+                        true,
+                        false
+                    ],
+                    "pin-social",
+                    ["match", ["get", "type"], ["Attraction"], true, false],
+                    "pin-attraction",
+                    ["match", ["get", "type"], ["Baseball"], true, false],
+                    "pin-baseball",
+                    [
+                        "match",
+                        ["get", "type"],
+                        ["Fitness centre", "Fitness Centre"],
+                        true,
+                        false
+                    ],
+                    "pin-fitness-centre",
+                    ["match", ["get", "type"], ["Kindergarten"], true, false],
+                    "pin-school",
+                    ["match", ["get", "type"], ["School"], true, false],
+                    "pin-school",
+                    ["match", ["get", "type"], ["Sports centre"], true, false],
+                    "pin-pitch",
                     ["concat", "pin-", ["get", "maki"]]
                 ],
                 "text-font": ["Montserrat Medium", "Arial Unicode MS Bold"],
@@ -5979,7 +6319,7 @@ var satelliteStreet = {
         }
     ],
     "created": "2021-10-18T04:49:31.814Z",
-    "modified": "2022-04-26T09:24:59.802Z",
+    "modified": "2022-05-15T08:38:57.544Z",
     "id": "ckuw6ho682rig18qp8ldx5wkl",
     "owner": "lakshyajeet",
     "visibility": "public",
