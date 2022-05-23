@@ -129,18 +129,14 @@ class mapillaryViewerButton {
                 }
             } else {
                 mapillaryStatus = false;
-                document.getElementById("mapillaryWindowDiv").style.display =
-                    "none";
+                document.getElementById("imageWindow").style.visibility =
+                    "hidden";
 
                 map.removeLayer("mapillary-images");
                 map.removeLayer("mapillary-images-360");
                 map.removeLayer("mapillary-sequences");
                 map.removeSource("mapillaryImages");
                 map.removeSource("mapillarySequences");
-
-                document.getElementById("imageWindow").style.zIndex = "-1";
-                document.getElementById("mapillaryWindowToggle").style.zIndex =
-                    "-1";
 
                 originalMarker.remove();
                 cameraMarker.remove();
