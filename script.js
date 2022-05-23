@@ -101,10 +101,17 @@ map.addControl(
 map.addControl(new MapboxTraffic());
 map.addControl(new MapboxStyleSwitcherControl());
 
-var mapillaryWindowToggle = false;
-
 document.addEventListener("mapillaryWindowToggled", () => {
-    if (mapillaryWindowToggle) {
+    if (mapillaryFullscreen) {
+        document.getElementsByClassName(
+            "mapboxgl-control-container"
+        )[0].style.visibility = "hidden";
+        document.getElementById("geocoder").style.visibility = "hidden";
+    } else {
+        document.getElementsByClassName(
+            "mapboxgl-control-container"
+        )[0].style.visibility = "visible";
+        document.getElementById("geocoder").style.visibility = "visible";
     }
 });
 
@@ -134,6 +141,11 @@ function sidebarOpen() {
 
     if (sidebar.classList.contains("collapsed")) {
         sidebar.classList.remove("collapsed");
+
+        if (!mobileCheck()) {
+            document.getElementById("imageWindow").classList.add("collapsed");
+        }
+
         map.easeTo({
             padding: { left: 300 },
             duration: 1000, // In ms. This matches the CSS transition duration property.
@@ -145,6 +157,9 @@ var clickMarkerStatus = false;
 var clickMarker;
 
 map.on("click", "poi-label", (e) => {
+    if (mapillaryFullscreen) {
+        return;
+    }
     // Copy coordinates array.
     const coordinates = e.features[0].geometry.coordinates.slice();
     const name = e.features[0].properties.name;
@@ -315,6 +330,12 @@ function sidebarClose() {
     const sidebar = document.getElementById("leftSidebar");
     if (!sidebar.classList.contains("collapsed")) {
         sidebar.classList.add("collapsed");
+        if (!mobileCheck()) {
+            document
+                .getElementById("imageWindow")
+                .classList.remove("collapsed");
+        }
+
         map.easeTo({
             padding: { left: 0 },
             duration: 1000, // In ms. This matches the CSS transition duration property.
@@ -329,6 +350,9 @@ function sidebarClose() {
 map.on("preclick", sidebarClose);
 // Change the cursor to a pointer when the mouse is over the places layer.
 map.on("mouseenter", "poi-label", () => {
+    if (mapillaryFullscreen) {
+        return;
+    }
     map.getCanvas().style.cursor = "pointer";
 });
 

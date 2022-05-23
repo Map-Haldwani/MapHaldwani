@@ -63,12 +63,21 @@ body {
 }
 
 .subWindow {
+    transition: transform 1s;
     position: absolute;
     bottom: 2.5em;
-    left: 2.5em;
+    left: 3em;
     width: 25em;
     height: 15em;
     z-index: 2;
+}
+
+.collapsed.subWindow {
+    transform: translateX(+295px);
+}
+
+.mobile .subWindow {
+    left: 3em;
 }
 
 #map {
@@ -81,12 +90,9 @@ body {
 }
 
 #imageWindow {
-    z-index: -1;
+    visibility: hidden;
 }
-#mapillaryWindowToggle {
-    z-index: -1;
-    cursor: pointer;
-}
+
 .mapillaryPopup {
     z-index: 5;
 }
@@ -132,9 +138,10 @@ body {
 }
 
 #mapillaryWindowToggleButton {
+    z-index: 3;
     position: absolute;
-    bottom: 14.91em;
-    left: 23.42em;
+    top: -0.5em;
+    right: -2em;
     width: 0;
     height: 0;
     background-color: transparent;
@@ -147,12 +154,11 @@ body {
 
 #mapillaryWindowToggleButtonIcon {
     position: absolute;
-    bottom: 14.6em;
-    left: 24.6em;
+    top: 0.5em;
+    right: -1.5em;
     width: 3em;
     height: 3em;
     fill: #fff;
-    transform: rotate(45deg);
 }
 
 img {
@@ -292,12 +298,16 @@ img {
 
 .sidebar {
     transition: transform 1s;
-    z-index: 1;
+    z-index: 99;
     width: 300px;
     height: 99vh;
 }
 
-.left.collapsed {
+.subWindow .sidebar {
+    display: none;
+}
+
+.collapsed.left {
     transform: translateX(-295px);
 }
 
@@ -409,4 +419,8 @@ img {
     .mapboxgl-ctrl-logo {
         display: none;
     }
+}
+
+.hide {
+    display: none !important;
 }
