@@ -101,20 +101,6 @@ map.addControl(
 map.addControl(new MapboxTraffic());
 map.addControl(new MapboxStyleSwitcherControl());
 
-document.addEventListener("mapillaryWindowToggled", () => {
-    if (mapillaryFullscreen) {
-        document.getElementsByClassName(
-            "mapboxgl-control-container"
-        )[0].style.visibility = "hidden";
-        document.getElementById("geocoder").style.visibility = "hidden";
-    } else {
-        document.getElementsByClassName(
-            "mapboxgl-control-container"
-        )[0].style.visibility = "visible";
-        document.getElementById("geocoder").style.visibility = "visible";
-    }
-});
-
 map.on("load", () => {
     map.flyTo({
         center: [79.51, 29.1969],

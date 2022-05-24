@@ -1,0 +1,100 @@
+.mapillaryPopup {
+    z-index: 5;
+}
+.mapillaryPopup .mapboxgl-popup-content {
+    border-radius: 1em;
+    width: 15em;
+    height: 10em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mapillaryPreviewImg {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.5em;
+    top: 0;
+}
+
+#mapillaryWindowDiv {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+#mapillaryWindow {
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0);
+}
+
+#mapillaryWindowLoader {
+    mix-blend-mode: darken;
+    display: none;
+    position: absolute;
+    width: 5em;
+    z-index: 2;
+}
+
+#mapillaryWindowToggleButton {
+    z-index: 3;
+    position: absolute;
+    top: -0.5em;
+    right: -2em;
+    width: 0;
+    height: 0;
+    background-color: transparent;
+    border-right: 3em solid transparent;
+    border-bottom: 3em solid rgba(0, 0, 0, 0.5);
+    border-left: 3em solid transparent;
+    border-top: 0px solid transparent;
+    transform: rotate(45deg);
+}
+.mobile #mapillaryWindowToggleButton {
+    display: none;
+}
+
+#mapillaryWindowToggleButtonIcon {
+    position: absolute;
+    top: 0.5em;
+    right: -1.5em;
+    width: 3em;
+    height: 3em;
+    fill: #fff;
+}
+
+#mapillaryWindowMinimizeButton {
+    z-index: 3;
+    position: absolute;
+    top: 0em;
+    left: 0em;
+    margin: 12px;
+    height: 18px;
+    width: 22px;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3C?xml version='1.0' encoding='UTF-8' standalone='no'?%3E %3Csvg width='22px' height='18px' viewBox='0 0 22 18' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E %3C!-- Generator: sketchtool 3.7.2 (28276) - http://www.bohemiancoding.com/sketch --%3E %3Ctitle%3E390F95AB-67C8-42FF-B9FF-C317EDED2467%3C/title%3E %3Cdesc%3ECreated with sketchtool.%3C/desc%3E %3Cdefs%3E %3Crect id='path-1' x='0' y='0' width='22' height='17' rx='4'/%3E %3Cfilter x='-50%25' y='-50%25' width='200%25' height='200%25' filterUnits='objectBoundingBox' id='filter-2'%3E %3CfeOffset dx='0' dy='1' in='SourceAlpha' result='shadowOffsetOuter1'/%3E %3CfeColorMatrix values='0 0 0 0 0.278431373 0 0 0 0 0.290196078 0 0 0 0 0.305882353 0 0 0 0.4 0' type='matrix' in='shadowOffsetOuter1'/%3E %3C/filter%3E %3C/defs%3E %3Cg id='Page-1' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E %3Cg id='view_component_photo' transform='translate(-12.000000, -12.000000)'%3E %3Cg id='minimize' transform='translate(12.000000, 12.000000)'%3E %3Cg id='Rectangle-211'%3E %3Cuse fill='black' fill-opacity='1' filter='url(%23filter-2)' xlink:href='%23path-1'/%3E %3Cuse fill='%23FFFFFF' fill-rule='evenodd' xlink:href='%23path-1'/%3E %3C/g%3E %3Crect id='Rectangle-210' fill='%23474A4E' x='4' y='10' width='14' height='2' rx='100'/%3E %3C/g%3E %3C/g%3E %3C/g%3E %3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: inline-block;
+    cursor: pointer;
+}
+
+#mapillaryWindowMaximizeButton {
+    z-index: 3;
+    cursor: pointer;
+    position: absolute;
+    bottom: 2.5em;
+    left: 3em;
+    border-radius: 24px;
+    background-size: 24px 22px;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(33, 43, 54, 0.7);
+}

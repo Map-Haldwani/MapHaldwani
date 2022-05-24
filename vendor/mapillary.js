@@ -3,6 +3,7 @@ mapillatyAccesToken = "MLY|7352363038169201|4e02e9cd8030a2fa229fb42825fb46bb";
 var mapillaryStatus = false;
 
 var mapillaryFullscreen = false;
+var maillaryMinimized = false;
 
 class mapillaryViewerButton {
     onAdd(map) {
@@ -347,10 +348,15 @@ class mapillaryViewerButton {
 
         map.on("click", "mapillary-images", (e) => {
             document.getElementById("imageWindow").style.visibility = "visible";
+            $("#mapillaryWindowMaximizeButton").remove();
 
             document
                 .getElementById("mapWindow")
                 .classList.add("mapillaryWindowEnabled");
+
+            document
+                .getElementById("mapWindow")
+                .classList.remove("mapillaryWindowMinimized");
 
             window.dispatchEvent(new Event("resize"));
             mapillaryViewer.moveTo(e.features[0].properties.id);
@@ -583,14 +589,60 @@ function toggleMapImageWindow() {
 
     if (document.getElementById("mapWindow").classList.contains("mainWindow")) {
         mapillaryFullscreen = false;
-        console.log("mapillaryFullscreen: " + mapillaryFullscreen);
     } else {
         mapillaryFullscreen = true;
-        console.log("mapillaryFullscreen: " + mapillaryFullscreen);
     }
 
     $("#mapillaryWindowToggleButton").appendTo(".subWindow");
+    $("#mapillaryWindowMinimizeButton").appendTo(".subWindow");
 
     document.dispatchEvent(new Event("mapillaryWindowToggled"));
     window.dispatchEvent(new Event("resize"));
 }
+
+function minimizeMapImageWindow() {
+    maillaryMinimized = true;
+    document.getElementsByClassName("subWindow")[0].style.visibility = "hidden";
+
+    $(".content").append(
+        `<div 
+            id="mapillaryWindowMaximizeButton" 
+            style="background-image: url(../media/${
+                mapillaryFullscreen ? "map" : "photo"
+            }.svg)" 
+            onclick="maximizeMapImageWindow()">
+        </div>`
+    );
+
+    document
+        .getElementById("mapWindow")
+        .classList.add("mapillaryWindowMinimized");
+
+    window.dispatchEvent(new Event("resize"));
+}
+
+function maximizeMapImageWindow() {
+    maillaryMinimized = false;
+    document.getElementsByClassName("subWindow")[0].style.visibility =
+        "visible";
+
+    $("#mapillaryWindowMaximizeButton").remove();
+
+    document
+        .getElementById("mapWindow")
+        .classList.remove("mapillaryWindowMinimized");
+}
+
+document.addEventListener("mapillaryWindowToggled", () => {
+    if (mapillaryFullscreen) {
+        document.getElementsByClassName(
+            "mapboxgl-control-container"
+        )[0].style.visibility = "hidden";
+        document.getElementById("geocoder").style.visibility = "hidden";
+    } else {
+        document.getElementsByClassName(
+            "mapboxgl-control-container"
+        )[0].style.visibility = "visible";
+        document.getElementById("geocoder").style.visibility = "visible";
+    }
+});
