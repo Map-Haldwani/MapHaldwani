@@ -11,6 +11,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 [data-tooltip] {
@@ -72,12 +73,25 @@ body {
     z-index: 2;
 }
 
-.collapsed.subWindow {
-    transform: translateX(+295px);
+.mobile #imageWindow {
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
 }
 
-.mobile .subWindow {
-    left: 3em;
+.mobile #mapWindow.mapillaryWindowEnabled {
+    width: 100%;
+    top: 50%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+}
+
+.collapsed.subWindow {
+    transform: translateX(+295px);
 }
 
 #map {
@@ -150,6 +164,9 @@ body {
     border-left: 3em solid transparent;
     border-top: 0px solid transparent;
     transform: rotate(45deg);
+}
+.mobile #mapillaryWindowToggleButton {
+    display: none;
 }
 
 #mapillaryWindowToggleButtonIcon {

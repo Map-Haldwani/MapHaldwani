@@ -131,6 +131,9 @@ class mapillaryViewerButton {
                 mapillaryStatus = false;
                 document.getElementById("imageWindow").style.visibility =
                     "hidden";
+                document
+                    .getElementById("mapWindow")
+                    .classList.remove("mapillaryWindowEnabled");
 
                 map.removeLayer("mapillary-images");
                 map.removeLayer("mapillary-images-360");
@@ -140,6 +143,8 @@ class mapillaryViewerButton {
 
                 originalMarker.remove();
                 cameraMarker.remove();
+
+                window.dispatchEvent(new Event("resize"));
             }
         };
 
@@ -342,6 +347,11 @@ class mapillaryViewerButton {
 
         map.on("click", "mapillary-images", (e) => {
             document.getElementById("imageWindow").style.visibility = "visible";
+
+            document
+                .getElementById("mapWindow")
+                .classList.add("mapillaryWindowEnabled");
+
             window.dispatchEvent(new Event("resize"));
             mapillaryViewer.moveTo(e.features[0].properties.id);
         });
@@ -435,9 +445,6 @@ class mapillaryViewerButton {
         let activeImages = null;
 
         const onImage = (image) => {
-            originalMarker.addTo(map);
-            cameraMarker.addTo(map);
-
             document.getElementById("mapillaryWindowLoader").style.display =
                 "none";
 
@@ -449,8 +456,8 @@ class mapillaryViewerButton {
                 image.originalLngLat.lng,
                 image.originalLngLat.lat,
             ];
-            originalMarker.setLngLat(originalPos);
-            cameraMarker.setLngLat(originalPos);
+            originalMarker.setLngLat(originalPos).addTo(map);
+            cameraMarker.setLngLat(originalPos).addTo(map);
 
             if (activeSequenceId !== image.sequenceId) {
                 if (activeSequenceId) {
@@ -536,6 +543,7 @@ class mapillaryViewerButton {
 
         mapillaryViewer.on("load", async () => {
             const image = await mapillaryViewer.getImage();
+
             onImage(image);
 
             await onFov();
