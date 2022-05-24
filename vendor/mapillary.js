@@ -435,6 +435,9 @@ class mapillaryViewerButton {
         let activeImages = null;
 
         const onImage = (image) => {
+            originalMarker.addTo(map);
+            cameraMarker.addTo(map);
+
             document.getElementById("mapillaryWindowLoader").style.display =
                 "none";
 
@@ -537,11 +540,6 @@ class mapillaryViewerButton {
 
             await onFov();
             await onPov();
-
-            //lngLatMarker.addTo(map);
-            originalMarker.addTo(map);
-            //positionMarker.addTo(map);
-            cameraMarker.addTo(map);
         });
 
         mapillaryViewer.on("image", (event) => onImage(event.image));
