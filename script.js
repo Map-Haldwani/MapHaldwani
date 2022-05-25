@@ -2,6 +2,7 @@
 function mobileCheck() {
     return document.body.classList.contains("mobile");
 }
+var disqus_config;
 
 const Geocoder = new MapboxGeocoder({
     accessToken: mapboxgl.accessToken,
@@ -325,26 +326,22 @@ map.on("click", "poi-label", (e) => {
             commentBox.id = "commentBox";
             commentBox.classList.add("sidebarContentComments");
             commentBox.innerHTML = `
-        <div id="disqus_thread"></div>
-        <script>
+            <div id="disqus_thread"></div>`;
+            sidebarContent.append(commentBox);
 
-            var disqus_config = function () {
-                this.page.url = "https://map-haldwani.github.io/MapHaldwani"
-                this.page.identifier = "${osm_id}"
+            disqus_config = function () {
+                this.page.url = `https://map-haldwani.github.io/MapHaldwani/${osm_id}`;
+                this.page.identifier = `${osm_id}`;
+                this.page.title = `OSM ID: ${osm_id}`;
             };
-            
-            (function() {
-                var d = document, s = d.createElement('script');
-                
-                s.src = 'https://map-haldwani.disqus.com/embed.js';
-                
-                s.setAttribute('data-timestamp', +new Date());
+
+            (function () {
+                var d = document,
+                    s = d.createElement("script");
+                s.src = "https://map-haldwani.disqus.com/embed.js";
+                s.setAttribute("data-timestamp", +new Date());
                 (d.head || d.body).appendChild(s);
             })();
-        </script>
-    `;
-
-            sidebarContent.append(commentBox);
         });
 });
 
