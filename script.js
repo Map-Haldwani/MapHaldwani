@@ -171,6 +171,7 @@ map.on("click", "poi-label", (e) => {
         .setLngLat(coordinates)
         .addTo(map);
     clickMarkerStatus = true;
+    const sidebarContent = document.getElementById("leftSidebarContent");
 
     fetch(
         `https://nominatim.openstreetmap.org/lookup?osm_ids=R${osm_id},W${osm_id},N${osm_id}&format=geojson&extratags=1`
@@ -178,8 +179,7 @@ map.on("click", "poi-label", (e) => {
         .then((response) => response.json())
         .then((data) => {
             // Sidebar content
-            const sidebarContent =
-                document.getElementById("leftSidebarContent");
+
             sidebarContent.innerHTML = "";
             sidebarContent.classList.remove("sidebarLoading");
             sidebarContent.classList.add("sidebarLoaded");
@@ -274,41 +274,77 @@ map.on("click", "poi-label", (e) => {
                     </a></div>`;
                     sidebarContent.appendChild(websiteElement);
                 }
-                //w3w
-
-                const w3wElement = document.createElement("div");
-                w3wElement.id = "w3wElement";
-                w3wElement.classList.add("sidebarContentTable");
-                w3wElement.innerHTML = `<div class="sidebarIconDiv"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146.2725 146.2725"><defs><style>.cls-1{fill:#e11f26;}.cls-2{fill:#fff;}.cls-3{fill:none;}</style></defs><g id="Layer_2" data-name="Layer 2"><g id="artwork"><path class="cls-1" d="M117.0206,29.2522H29.2549v87.7656h87.7657V29.2522Z"/><path class="cls-2" d="M67.6525,92.3346a2.7455,2.7455,0,0,1-2.602-3.61L76.0212,55.812a2.7429,2.7429,0,0,1,5.2041,1.7356L70.2546,90.46A2.7429,2.7429,0,0,1,67.6525,92.3346Z"/><path class="cls-2" d="M51.1965,92.3346a2.7456,2.7456,0,0,1-2.6021-3.61L59.5651,55.812a2.743,2.743,0,0,1,5.2042,1.7356L53.7985,90.46A2.7429,2.7429,0,0,1,51.1965,92.3346Z"/><path class="cls-2" d="M84.1086,92.3346a2.7456,2.7456,0,0,1-2.6021-3.61L92.4772,55.812a2.743,2.743,0,0,1,5.2042,1.7356L86.7107,90.46A2.743,2.743,0,0,1,84.1086,92.3346Z"/><rect class="cls-3" width="146.2725" height="146.2725"/></g></g></svg></div>
-                    <div class="sidebarIconText" id="w3wSidebar"><a style="color:grey">fetching...</a></div>`;
-                sidebarContent.appendChild(w3wElement);
-
-                what3words.api
-                    .convertTo3wa(
-                        { lat: coordinates[1], lng: coordinates[0] },
-                        "en"
-                    )
-                    .then(function (response) {
-                        document
-                            .getElementById("w3wElement")
-                            .setAttribute("data-tooltip", "Copy what3words");
-                        document
-                            .getElementById("w3wElement")
-                            .setAttribute(
-                                "onclick",
-                                `navigator.clipboard.writeText('${response.words}')`
-                            );
-                        document.getElementById(
-                            "w3wSidebar"
-                        ).innerHTML = `<a href="${response.map}" class="links" target="_blank">${response.words}</a>`;
-                    });
             } else {
                 // Name
                 const nameElement = document.createElement("div");
                 nameElement.classList.add("sidebarContentName");
                 nameElement.innerHTML = `<p style="font-size:2em; margin-bottom:0px">${name}</p>`;
                 sidebarContent.appendChild(nameElement);
+
+                // Horizontal Line
+                const horizontalLine = document.createElement("hr");
+                horizontalLine.classList.add("sidebarContentHorizontalLine");
+                sidebarContent.appendChild(horizontalLine);
             }
+
+            //w3w
+
+            const w3wElement = document.createElement("div");
+            w3wElement.id = "w3wElement";
+            w3wElement.classList.add("sidebarContentTable");
+            w3wElement.innerHTML = `<div class="sidebarIconDiv"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146.2725 146.2725"><defs><style>.cls-1{fill:#e11f26;}.cls-2{fill:#fff;}.cls-3{fill:none;}</style></defs><g id="Layer_2" data-name="Layer 2"><g id="artwork"><path class="cls-1" d="M117.0206,29.2522H29.2549v87.7656h87.7657V29.2522Z"/><path class="cls-2" d="M67.6525,92.3346a2.7455,2.7455,0,0,1-2.602-3.61L76.0212,55.812a2.7429,2.7429,0,0,1,5.2041,1.7356L70.2546,90.46A2.7429,2.7429,0,0,1,67.6525,92.3346Z"/><path class="cls-2" d="M51.1965,92.3346a2.7456,2.7456,0,0,1-2.6021-3.61L59.5651,55.812a2.743,2.743,0,0,1,5.2042,1.7356L53.7985,90.46A2.7429,2.7429,0,0,1,51.1965,92.3346Z"/><path class="cls-2" d="M84.1086,92.3346a2.7456,2.7456,0,0,1-2.6021-3.61L92.4772,55.812a2.743,2.743,0,0,1,5.2042,1.7356L86.7107,90.46A2.743,2.743,0,0,1,84.1086,92.3346Z"/><rect class="cls-3" width="146.2725" height="146.2725"/></g></g></svg></div>
+            <div class="sidebarIconText" id="w3wSidebar"><a style="color:grey">fetching...</a></div>`;
+            sidebarContent.appendChild(w3wElement);
+
+            what3words.api
+                .convertTo3wa(
+                    { lat: coordinates[1], lng: coordinates[0] },
+                    "en"
+                )
+                .then(function (response) {
+                    document
+                        .getElementById("w3wElement")
+                        .setAttribute("data-tooltip", "Copy what3words");
+                    document
+                        .getElementById("w3wElement")
+                        .setAttribute(
+                            "onclick",
+                            `navigator.clipboard.writeText('${response.words}')`
+                        );
+                    document.getElementById(
+                        "w3wSidebar"
+                    ).innerHTML = `<a href="${response.map}" class="links" target="_blank">${response.words}</a>`;
+                });
+
+            // Horizontal Line
+            const horizontalLine = document.createElement("hr");
+            horizontalLine.classList.add("sidebarContentHorizontalLine");
+            sidebarContent.appendChild(horizontalLine);
+
+            commentBox = document.createElement("div");
+            commentBox.id = "commentBox";
+            commentBox.classList.add("sidebarContentComments");
+            commentBox.innerHTML = `
+        <div id="disqus_thread"></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url = "https://map-haldwani.github.io/MapHaldwani"
+                this.page.identifier = "${osm_id}"
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                
+                s.src = 'https://map-haldwani.disqus.com/embed.js';
+                
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    `;
+
+            sidebarContent.append(commentBox);
         });
 });
 
