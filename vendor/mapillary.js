@@ -144,6 +144,7 @@ class mapillaryViewerButton {
 
                 originalMarker.remove();
                 cameraMarker.remove();
+                $("#mapillaryWindowMaximizeButton").remove();
 
                 window.dispatchEvent(new Event("resize"));
             }
