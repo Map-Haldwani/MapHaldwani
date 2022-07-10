@@ -49,7 +49,9 @@ const map = new mapboxgl.Map({
     attributionControl: false,
     hash: true,
     maxPitch: 45,
-    minZoom: 12,
+    // minZoom: 12,
+    projection: 'globe'
+
 });
 
 document.getElementById("geocoder").appendChild(Geocoder.onAdd(map));
@@ -116,7 +118,34 @@ map.on("load", () => {
             return t;
         },
     });
+
 });
+
+map.on("style.load", () => {
+    map.setFog({
+        color: "#333333", // Lower atmosphere
+        'high-color': "#000000", // Upper atmosphere
+        'horizon-blend': [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            4,
+            0.01,
+            7,
+            0.5
+        ], // Atmosphere thickness (default 0.2 at low zooms)
+        'space-color': "#000000", // Background color
+        'star-intensity': [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            5,
+            0.35,
+            6,
+            0
+        ]
+    });
+})
 
 function sidebarOpen() {
     const sidebar = document.getElementById("leftSidebar");
@@ -381,3 +410,71 @@ map.on("mouseleave", "poi-label", () => {
 });
 
 map.addControl(new mapillaryViewerButton(), "top-right");
+
+// Globe Spin ---------------------------------------------------
+
+function delay(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+}
+
+const secondsPerRevolution = 120;
+// Above zoom level 5, do not rotate.
+const maxSpinZoom = 5;
+// Rotate at intermediate speeds between zoom levels 3 and 5.
+const slowSpinZoom = 3;
+
+let userInteracting = false;
+let spinEnabled = true;
+
+function spinGlobe() {
+    delay(1500).then(() => {
+        const zoom = map.getZoom();
+        if (spinEnabled && !userInteracting && zoom < maxSpinZoom) {
+            let distancePerSecond = 360 / secondsPerRevolution;
+            if (zoom > slowSpinZoom) {
+                // Slow spinning at higher zooms
+                const zoomDif =
+                    (maxSpinZoom - zoom) / (maxSpinZoom - slowSpinZoom);
+                distancePerSecond *= zoomDif;
+            }
+            const center = map.getCenter();
+            center.lng -= distancePerSecond;
+            // Smoothly animate the map over one second.
+            // When this animation is complete, it calls a 'moveend' event.
+            map.easeTo({ center, duration: 1000, easing: (n) => n });
+        }
+    })
+}
+
+// Pause spinning on interaction
+map.on('mousedown', () => {
+    userInteracting = true;
+});
+
+// Restart spinning the globe when interaction is complete
+map.on('mouseup', () => {
+    userInteracting = false;
+    spinGlobe();
+});
+
+// These events account for cases where the mouse has moved
+// off the map, so 'mouseup' will not be fired.
+map.on('dragend', () => {
+    userInteracting = false;
+    spinGlobe();
+});
+map.on('pitchend', () => {
+    userInteracting = false;
+    spinGlobe();
+});
+map.on('rotateend', () => {
+    userInteracting = false;
+    spinGlobe();
+});
+
+// When animation is complete, start spinning if there is no ongoing interaction
+map.on('moveend', () => {
+    spinGlobe();
+});
+
+spinGlobe();
