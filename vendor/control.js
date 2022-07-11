@@ -185,11 +185,6 @@ class terrainToggle {
 
                 map.setMaxPitch();
                 map.setTerrain({ source: "mapbox-dem", exaggeration: 1.5 });
-                map.setFog({
-                    range: [0.5, 10],
-                    color: "white",
-                    "horizon-blend": 0.1,
-                });
                 map.easeTo({
                     pitch: _this._pitch,
                     bearing: _this._bearing,
@@ -202,7 +197,6 @@ class terrainToggle {
                 });
             } else {
                 map.setTerrain();
-                map.setFog();
                 map.easeTo({
                     pitch: 0,
                     bearing: 0,
@@ -218,7 +212,7 @@ class terrainToggle {
             map.on("styledata", (e) => {
                 if (
                     _this._btn.className ===
-                        "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-2d" &&
+                    "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-2d" &&
                     !map.getTerrain()
                 ) {
                     if (!map.getSource("mapbox-dem")) {
@@ -238,7 +232,7 @@ class terrainToggle {
                 }
                 if (
                     _this._btn.className ===
-                        "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d" &&
+                    "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d" &&
                     map.getTerrain()
                 ) {
                     map.setTerrain();

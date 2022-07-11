@@ -1,128 +1,94 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Map Haldwani</title>
-        <link href="media/favicon.ico" rel="icon" />
 
-        <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="initial-scale=1,maximum-scale=1,user-scalable=no,minimal-ui"
-        />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
+<head>
+    <title>Map Haldwani</title>
+    <link href="media/favicon.ico" rel="icon" />
 
-        <link href="style.css" rel="stylesheet" />
-        <link href="css/sidebar.css" rel="stylesheet" />
-        <link href="css/mapillary.css" rel="stylesheet" />
-        <link href="css/control.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no,minimal-ui" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <link
-            href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css"
-            rel="stylesheet"
-        />
-        <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js"></script>
-        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
-        <link
-            rel="stylesheet"
-            href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
-            type="text/css"
-        />
-        <link
-            href="https://watergis.github.io/mapbox-gl-export/mapbox-gl-export.css"
-            rel="stylesheet"
-        />
-        <script src="https://watergis.github.io/mapbox-gl-export/mapbox-gl-export.js"></script>
-        <script src="https://assets.what3words.com/sdk/v3/what3words.js?key=M4GPV3HS"></script>
+    <link href="style.css" rel="stylesheet" />
+    <link href="css/sidebar.css" rel="stylesheet" />
+    <link href="css/mapillary.css" rel="stylesheet" />
+    <link href="css/control.css" rel="stylesheet" />
 
-        <script type="text/javascript" src="vendor/mapStyles.json"></script>
-        <script src="https://unpkg.com/mapillary-js@4.1.0/dist/mapillary.js"></script>
-        <link
-            href="https://unpkg.com/mapillary-js@4.1.0/dist/mapillary.css"
-            rel="stylesheet"
-        />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css" rel="stylesheet" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js"></script>
+    <script
+        src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
+        type="text/css" />
+    <link href="https://watergis.github.io/mapbox-gl-export/mapbox-gl-export.css" rel="stylesheet" />
+    <script src="https://watergis.github.io/mapbox-gl-export/mapbox-gl-export.js"></script>
+    <script src="https://assets.what3words.com/sdk/v3/what3words.js?key=M4GPV3HS"></script>
 
-        <script src="vendor/control.js"></script>
-        <script src="vendor/map-style.js"></script>
-        <script src="vendor/mapillary.js"></script>
-        <script src="vendor/geocoder.js"></script>
-        <script src="vendor/mapbox-gl-traffic.js"></script>
-    </head>
+    <script type="text/javascript" src="vendor/mapStyles.json"></script>
+    <script src="https://unpkg.com/mapillary-js@4.1.0/dist/mapillary.js"></script>
+    <link href="https://unpkg.com/mapillary-js@4.1.0/dist/mapillary.css" rel="stylesheet" />
 
-    <body>
-        <div class="loader">
-            <div>
-                <p class="loading text">
-                    <image id="load-logo" src="media\logo.png"></image>
-                    <b id="load-text">Map Haldwani</b>
-                </p>
-                <p class="loading">
-                    <image src="media\loader.gif" width="50px"></image>
-                </p>
-            </div>
+    <script src="vendor/control.js"></script>
+    <script src="vendor/map-style.js"></script>
+    <script src="vendor/mapillary.js"></script>
+    <script src="vendor/geocoder.js"></script>
+    <script src="vendor/mapbox-gl-traffic.js"></script>
+</head>
+
+<body>
+    <div class="loader">
+        <div>
+            <p class="loading text">
+                <image id="load-logo" src="media\logo.png"></image>
+                <b id="load-text">Map Haldwani</b>
+            </p>
+            <p class="loading">
+                <image src="media\loader.gif" width="50px"></image>
+            </p>
         </div>
-        <div class="content">
-            <div id="mapWindow" class="mainWindow">
-                <div id="map">
-                    <div
-                        id="leftSidebar"
-                        class="sidebar flex-center left collapsed"
-                    >
-                        <div
-                            id="leftSidebarBox"
-                            class="sidebar-content rounded-rect sidebarLoading"
-                        >
-                            <div id="leftSidebarContent"></div>
-                            <div
-                                class="sidebar-toggle left"
-                                onclick="sidebarClose()"
-                            >
-                                ✕
-                            </div>
+    </div>
+    <div class="content">
+        <div id="mapWindow" class="mainWindow">
+            <div id="map">
+                <div id="leftSidebar" class="sidebar flex-center left collapsed">
+                    <div id="leftSidebarBox" class="sidebar-content rounded-rect sidebarLoading">
+                        <div id="leftSidebarContent"></div>
+                        <div class="sidebar-toggle left" onclick="sidebarClose()">
+                            ✕
                         </div>
                     </div>
                 </div>
-                <div id="geocoder" class="geocoder"></div>
             </div>
-            <div id="imageWindow" class="subWindow">
-                <div
-                    id="mapillaryWindowToggleButton"
-                    onclick="toggleMapImageWindow()"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 448 512"
-                        id="mapillaryWindowToggleButtonIcon"
-                    >
-                        <path
-                            d="M416 352c-8.188 0-16.38-3.125-22.62-9.375L224 173.3l-169.4 169.4c-12.5 12.5-32.75 12.5-45.25 0s-12.5-32.75 0-45.25l192-192c12.5-12.5 32.75-12.5 45.25 0l192 192c12.5 12.5 12.5 32.75 0 45.25C432.4 348.9 424.2 352 416 352z"
-                        />
-                    </svg>
-                </div>
-                <div
-                    id="mapillaryWindowMinimizeButton"
-                    onclick="minimizeMapImageWindow()"
-                ></div>
-                <div id="mapillaryWindowDiv">
-                    <div id="mapillaryWindow"></div>
-                    <image
-                        src="media\loader.gif"
-                        id="mapillaryWindowLoader"
-                    ></image>
-                </div>
+            <div id="geocoder" class="geocoder"></div>
+        </div>
+        <div id="imageWindow" class="subWindow">
+            <div id="mapillaryWindowToggleButton" onclick="toggleMapImageWindow()">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" id="mapillaryWindowToggleButtonIcon">
+                    <path
+                        d="M416 352c-8.188 0-16.38-3.125-22.62-9.375L224 173.3l-169.4 169.4c-12.5 12.5-32.75 12.5-45.25 0s-12.5-32.75 0-45.25l192-192c12.5-12.5 32.75-12.5 45.25 0l192 192c12.5 12.5 12.5 32.75 0 45.25C432.4 348.9 424.2 352 416 352z" />
+                </svg>
+            </div>
+            <div id="mapillaryWindowMinimizeButton" onclick="minimizeMapImageWindow()"></div>
+            <div id="mapillaryWindowDiv">
+                <div id="mapillaryWindow"></div>
+                <image src="media\loader.gif" id="mapillaryWindowLoader"></image>
             </div>
         </div>
-        <script>
-            function delay(time) {
-                return new Promise((resolve) => setTimeout(resolve, time));
-            }
-            $(window).on("load", function () {
-                delay(1000).then(() => {
-                    $(".loading").fadeOut(200);
-                    $(".loader").fadeOut(1000);
-                });
+    </div>
+    <script>
+        function delay(time) {
+            return new Promise((resolve) => setTimeout(resolve, time));
+        }
+        $(window).on("load", function () {
+            delay(1000).then(() => {
+                $(".loading").fadeOut(200);
+                $(".loader").fadeOut(1000);
             });
-        </script>
-        <script src="script.js"></script>
-    </body>
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+
 </html>

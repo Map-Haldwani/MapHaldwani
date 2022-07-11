@@ -1,6 +1,7 @@
 * {
     box-sizing: border-box;
 }
+
 body,
 html {
     margin: 0;
@@ -17,6 +18,7 @@ body {
 [data-tooltip] {
     position: relative;
 }
+
 [data-tooltip]::after {
     position: absolute;
     top: 75%;
@@ -36,18 +38,22 @@ body {
     transform: translateX(10px);
     transition: opacity 0.3s, transform 0.2s;
 }
+
 [data-tooltip]:hover::after {
     opacity: 1;
     visibility: visible;
     transform: translateX(0);
 }
+
 .links {
     color: inherit;
     text-decoration: none;
 }
+
 .links:active {
     text-decoration: underline;
 }
+
 .links:hover {
     text-decoration: underline;
 }
@@ -121,13 +127,15 @@ body {
 img {
     max-width: 100%;
     max-height: 100%;
-    display: block; /* remove extra space below image */
+    display: block;
+    /* remove extra space below image */
 }
 
 .content {
     z-index: 1;
     display: flex;
 }
+
 .loader {
     position: absolute;
     z-index: 9999;
@@ -141,6 +149,7 @@ img {
     top: 0;
     bottom: 0;
 }
+
 .loading {
     text-align: center;
     display: flex;
@@ -173,15 +182,18 @@ img {
     left: 10px;
     top: 10px;
 }
+
 .mobile #geocoder {
     width: 96vw;
     left: 2vw;
     top: 2vw;
     border-radius: 2vh;
 }
+
 .mobile .mapboxgl-ctrl-top-right {
     top: 55px;
 }
+
 .mapboxgl-ctrl-geocoder {
     min-width: 50%;
 }
@@ -233,7 +245,7 @@ img {
     background-color: rgba(0, 0, 0, 0.05);
 }
 
-.mapboxgl-style-list button + button {
+.mapboxgl-style-list button+button {
     border-top: 1px solid #ddd;
 }
 
@@ -243,6 +255,7 @@ img {
     background-repeat: no-repeat;
     background-size: 70%;
 }
+
 .mapboxgl-ctrl-traffic {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22%23333333%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%20viewBox%3D%22-2%20-2%2022%2022%22%3E%0D%0A%3Cpath%20d%3D%22M13%2C4.1L12%2C3H6L5%2C4.1l-2%2C9.8L4%2C15h10l1-1.1L13%2C4.1z%20M10%2C13H8v-3h2V13z%20M10%2C8H8V5h2V8z%22%2F%3E%0D%0A%3C%2Fsvg%3E");
 }
@@ -264,6 +277,7 @@ img {
     background-color: lightgray;
     border-radius: 1vh;
 }
+
 .mapillary-canvas {
     left: 0;
     top: 0;
