@@ -9,11 +9,13 @@ class mapillaryViewerButton {
     onAdd(map) {
         this.map = map;
         this._btn = document.createElement("button");
+        this._btn.id = "mapillary-viewer-button";
         this._btn.className = "mapboxgl-ctrl-icon mapboxgl-ctrl-mapillary";
         this._btn.type = "button";
         this._btn.onclick = function () {
             if (!mapillaryStatus) {
                 mapillaryStatus = true;
+                document.getElementById("mapillary-viewer-button").classList.toggle("enabled");
 
                 if (!map.getSource("mapillaryImages")) {
                     map.addSource("mapillaryImages", {
@@ -130,6 +132,8 @@ class mapillaryViewerButton {
                 }
             } else {
                 mapillaryStatus = false;
+                document.getElementById("mapillary-viewer-button").classList.toggle("enabled");
+
                 document.getElementById("imageWindow").style.visibility =
                     "hidden";
                 document
@@ -608,9 +612,8 @@ function minimizeMapImageWindow() {
     $(".content").append(
         `<div 
             id="mapillaryWindowMaximizeButton" 
-            style="background-image: url(../media/${
-                mapillaryFullscreen ? "map" : "photo"
-            }.svg)" 
+            style="background-image: url(../media/${mapillaryFullscreen ? "map" : "photo"
+        }.svg)" 
             onclick="maximizeMapImageWindow()">
         </div>`
     );
