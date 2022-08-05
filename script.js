@@ -204,7 +204,7 @@ map.on("click", "poi-label", (e) => {
     const sidebarContent = document.getElementById("leftSidebarContent");
 
     fetch(
-        `https://nominatim.openstreetmap.org/lookup?osm_ids=R${osm_id},W${osm_id},N${osm_id}&format=geojson&extratags=1`
+        `https://nominatim.openstreetmap.org/lookup?osm_ids=R${osm_id},W${osm_id},N${osm_id}&format=geojson&extratags=1&namedetails=1`
     )
         .then((response) => response.json())
         .then((data) => {
@@ -215,9 +215,6 @@ map.on("click", "poi-label", (e) => {
             sidebarContent.classList.add("sidebarLoaded");
 
             if (data.features[0] != null) {
-                var text = `<p>${data.features[0].properties.display_name}</p>
-                    <p>Category: ${data.features[0].properties.category}</p>
-                     <p>Type: ${data.features[0].properties.type}</p>`;
 
                 // Image Placeholder
                 const imagePlaceholder = document.createElement("div");
@@ -250,7 +247,7 @@ map.on("click", "poi-label", (e) => {
                 // Name & Type
                 const nameElement = document.createElement("div");
                 nameElement.classList.add("sidebarContentName");
-                nameElement.innerHTML = `<p style="font-size:2em; margin-bottom:0px">${name}</p>
+                nameElement.innerHTML = `<p style="font-size:2em; margin-bottom:0px">${data.features[0].properties.namedetails.name}</p>
                  <p style="color:grey; margin : 0; padding-top: 0.1em">${data.features[0].properties.type} (${data.features[0].properties.category})</p>`;
                 sidebarContent.appendChild(nameElement);
 
