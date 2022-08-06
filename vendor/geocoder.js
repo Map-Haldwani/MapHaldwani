@@ -1,59 +1,13 @@
-var locationiq_api_key = "pk.dd3b88b07ee111e15e0af9588de10ba7";
-var locationiq_api_url = "https://api.locationiq.com/v1/autocomplete.php";
-
-var placeEmoji = {
-    amenity: {
-        school: "🏫",
-        college: "🎓",
-        events_venue: "🎉",
-        university: "🎓",
-        bank: "🏦",
-        place_of_worship: "🛐",
-        restaurant: "🍴",
-        cafe: "🍰",
-        bar: "🍺",
-        pharmacy: "💊",
-        atm: "🏧",
-        hospital: "🏥",
-    },
-    shop: { bakery: "🍞" },
-    tourism: { hotel: "🏨" },
-    boundary: { national_park: "🏞️" },
-    highway: { default: "🛣️" },
-    landuse: { religious: "🛐", cemetery: "⚰️", residential: "🏠" },
-    leisure: { park: "⛲", playground: "🛝", pitch: "🏃", sports_centre: "🏊" },
-    railway: { station: "🚉" },
-};
-
-function placeTypeEmoji(type, placeClass) {
-    if (placeClass in placeEmoji) {
-        if (type in placeEmoji[placeClass]) {
-            return placeEmoji[placeClass][type];
-        } else {
-            if (placeEmoji[placeClass]["default"]) {
-                return placeEmoji[placeClass]["default"];
-            }
-        }
-    }
-    return "🔗 ";
-}
-
 async function forwardGeocoder(query) {
-    // Location IQ
-    const locationiq_request_url =
-        locationiq_api_url +
-        "?" +
-        "q=" +
+
+    let nominatim_url =
+        'https://nominatim.openstreetmap.org/search?q=' +
         query +
-        "&key=" +
-        locationiq_api_key +
-        "&viewbox=79%2C29%2C80%2C29.54" +
-        "&bounded=1" +
-        "&limit=5" +
-        "&countrycodes=in";
+        '&countrycodes=in&limit=5&format=geojson&polygon_geojson=1&addressdetails=1';
+
     var success = false;
 
-    const locationiq_result = await fetch(locationiq_request_url)
+    const nominatim_result = await fetch(nominatim_url)
         .then((response) => {
             return response.json();
         })
@@ -62,13 +16,20 @@ async function forwardGeocoder(query) {
                 return;
             } else {
                 const matchingFeatures = [];
-                for (const feature of actualdata) {
-                    feature["place_name"] =
-                        placeTypeEmoji(feature.type, feature.class) +
-                        feature.display_name;
-                    feature["center"] = [feature.lon, feature.lat];
-                    feature["place_type"] = feature.type;
-                    matchingFeatures.push(feature);
+                for (const feature of actualdata.features) {
+                    let center = [
+                        feature.bbox[0] + (feature.bbox[2] - feature.bbox[0]) / 2,
+                        feature.bbox[1] + (feature.bbox[3] - feature.bbox[1]) / 2
+                    ];
+
+                    let point = {
+                        place_name: feature.properties.display_name,
+                        center: center,
+                        place_type: [feature.properties.type],
+
+                    };
+
+                    matchingFeatures.push(point);
                 }
                 success = true;
                 return matchingFeatures;
@@ -80,13 +41,14 @@ async function forwardGeocoder(query) {
         });
 
     if (success) {
-        return locationiq_result;
+        return nominatim_result;
     } else {
         return Promise.reject(
             new Error("failed to fetch data from Location IQ")
         );
     }
 }
+
 
 const coordinatesGeocoder = function (query) {
     // Match anything which looks like
