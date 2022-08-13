@@ -70,11 +70,11 @@ map.addControl(
 if (!mobileCheck()) {
     map.addControl(new mapboxgl.FullscreenControl());
     map.addControl(
-        new watergis.MapboxExportControl({
-            PageSize: watergis.Size.A3,
-            PageOrientation: watergis.PageOrientation.Portrait,
-            Format: watergis.Format.PNG,
-            DPI: watergis.DPI[96],
+        new MapboxExportControl({
+            PageSize: Size.A4,
+            PageOrientation: PageOrientation.Portrait,
+            Format: Format.PNG,
+            DPI: DPI[96],
             Crosshair: true,
             PrintableArea: true,
         }),
